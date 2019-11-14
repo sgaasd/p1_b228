@@ -1,5 +1,10 @@
 #include <ros/ros.h>
 #include <geometry_msgs/Twist.h>
+#include <nav_msgs/Odometry.h>
+
+int dist(){
+
+}
 
 int main(int argc, char *argv[])
 {
@@ -7,6 +12,8 @@ int main(int argc, char *argv[])
 
     ros::NodeHandle n;
     ros::Publisher cmd_vel_pub = n.advertise<geometry_msgs::Twist>("cmd_vel_mux/input/teleop", 1);
+
+        //    ros::Subscriber odom_sub = n.subscribe("odom", 100, dist);
 
     geometry_msgs::Twist cmd_vel_message;
     cmd_vel_message.angular.z = 0.0;
