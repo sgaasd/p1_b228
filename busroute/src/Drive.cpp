@@ -10,10 +10,14 @@ int main(int argc, char *argv[])
 
     geometry_msgs::Twist cmd_vel_message;
     cmd_vel_message.angular.z = 0.0;
-    cmd_vel_message.linear.x = 0.50;
+    cmd_vel_message.linear.x = 0.25;
+
+//1 meter --> x = 0.25 --> for_loop = 40
+//1 meter --> x = 0.50 --> for_loop = 20
+//1 meter --> x = 1 --> for_loop = loop_rate
 
     ros::Rate loop_rate(10);
-    for (int i = 0; i < 20; i++)
+    for (int i = 0; i < 40; i++)
 {
 
         cmd_vel_message.angular.z = cmd_vel_message.angular.z * 1.00;
