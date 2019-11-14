@@ -12,13 +12,19 @@ int main(int argc, char *argv[])
     cmd_vel_message.angular.z = 0.0;
     cmd_vel_message.linear.x = 0.50;
 
-    ros::Rate loop_rate(2);
-    while (ros::ok())
+    ros::Rate loop_rate(10);
+    for (int i = 0; i < 20; i++)
 {
+
         cmd_vel_message.angular.z = cmd_vel_message.angular.z * 1.00;
         cmd_vel_message.linear.x = cmd_vel_message.linear.x * 1.00;
         cmd_vel_pub.publish(cmd_vel_message);
         loop_rate.sleep();
 }
-    return 0;
+
+        cmd_vel_message.angular.z = cmd_vel_message.angular.z * 0.00;
+        cmd_vel_message.linear.x = cmd_vel_message.linear.x * 0.00;
+        cmd_vel_pub.publish(cmd_vel_message);
+        loop_rate.sleep();
+    ros::spinOnce();
 }
