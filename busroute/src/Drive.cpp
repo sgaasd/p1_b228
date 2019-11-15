@@ -12,11 +12,15 @@ float driven = 0;
 void chatterCallback(const nav_msgs::Odometry::ConstPtr& msg){
     PosX = msg->pose.pose.position.x;
     PosY = msg->pose.pose.position.y;
-    dist = sqrt(((PosX*PosX)+(PosY*PosY)));
-    std::cout << dist << std::endl;
-    if(dist < 1){
-        
+    driven = sqrt(((PosX*PosX)+(PosY*PosY)));
+    std::cout << driven << " out of " << dist << "driven." << std::endl;
+    if(driven < dist){
+        cmd_vel_message.linear.x = 0.50;
+    } else {
+        cmd_vel_message.linear.x = 0.00;
     }
+
+
 }
 
 int main(int argc, char *argv[])
