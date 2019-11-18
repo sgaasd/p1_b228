@@ -123,7 +123,7 @@ include_directories(${catkin_INCLUDE_DIRS})
 ## Declare a C++ executable
 add_executable(busroute_node src/busroute.cpp)
 add_executable(Drive_node src/Drive.cpp)
-add_executable(Drive_simon_node src/Drive_simon.cpp)
+#add_executable(Drive2_node src/Drive2.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
@@ -136,9 +136,10 @@ target_link_libraries(busroute_node
 target_link_libraries(Drive_node
   ${catkin_LIBRARIES}
 )
-target_link_libraries(Drive_simon_node
-  ${catkin_LIBRARIES}
-)
+
+#target_link_libraries(Drive2_node
+#  ${catkin_LIBRARIES}
+#)
 
 #############
 ## Install ##
