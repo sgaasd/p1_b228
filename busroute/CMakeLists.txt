@@ -124,6 +124,7 @@ include_directories(${catkin_INCLUDE_DIRS})
 add_executable(busroute_node src/busroute.cpp)
 add_executable(Drive_node src/Drive.cpp)
 add_executable(Drive2_node src/Drive2.cpp)
+add_executable(Bumper_node src/Bumper.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
@@ -137,6 +138,10 @@ target_link_libraries(Drive_node
   ${catkin_LIBRARIES}
 )
 target_link_libraries(Drive2_node
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(Bumper_node
   ${catkin_LIBRARIES}
 )
 
