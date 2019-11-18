@@ -2,7 +2,7 @@
 #include <kobuki_msgs/BumperEvent.h>
 
 
-// kobuki_msgs.msg import BumperEvent
+
 
 
 /*void BumperCallback(const kobuki_msgs/BumperEvent::ConstPtr& msg)
@@ -19,8 +19,8 @@
 */
 int main(int argc, char const *argv[])
 {
-  //  ros::init(argc, argv, "Bumper");
-  //  ros::NodeHandle n;
-   // ros::Subscriber bumper_sub = n.subscribe("mobile_base/events/bumper", BumperEvent, processBump, 1, BumperCallback);
+    ros::init(argc, argv, "Bumper");
+    ros::NodeHandle n;
+    ros::Subscriber bumper_sub = n.subscribe("mobile_base/events/bumper", 1, BumperCallback);
     return 0;
 }
