@@ -116,7 +116,7 @@ void move_v3(double speed, double distance, bool isForward){
 
 	//set the linear velocity to a positive value if isFoward is true
 	if (isForward)
-		VelocityMessage.linear.x =abs(speed);
+		VelocityMessage.linear.x =abs(1);
 	else //else set the velocity to negative value to move backward
 		VelocityMessage.linear.x =-abs(speed);
 	//all velocities of other axes must be zero.
