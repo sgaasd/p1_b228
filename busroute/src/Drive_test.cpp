@@ -1,8 +1,6 @@
 
 
 
-
-
 /*STOLEN BUT LEGALLY*/
 
 
@@ -32,8 +30,6 @@ nav_msgs::Odometry turtlebot_odom_pose;
 //callback function for the /odom topic to update the pose
 void poseCallback(const nav_msgs::Odometry::ConstPtr & pose_message);
 //the function that makes the robot moves forward and backward
-void move_v1(double speed, double distance, bool isForward);
-void move_v2(double speed, double distance, bool isForward);
 void move_v3(double speed, double distance, bool isForward);
 //the function that makes the robot rotates left and right
 double rotate(double ang_vel, double angle_radian, bool isClockwise);
@@ -46,7 +42,7 @@ void moveSquare(double sideLength);
 int main(int argc, char **argv){
 
 	//initialize the ROS node
-	ros::init(argc, argv, "Drive2");
+	ros::init(argc, argv, "Drive_test");
 	ros::NodeHandle n;
 
 	//subscribe to the odometry topic to get the position of the robot
@@ -96,198 +92,12 @@ void poseCallback(const nav_msgs::Odometry::ConstPtr & pose_message){
 
 void moveSquare(double sideLength){
 	for (int i=0;i<4;i++){
-		move_v1(0.3, sideLength, true);
-		rotate (0.3, degree2radian(90), true);
+		move_v3(0.3, sideLength, true);
+//		rotate (0.3, degree2radian(90), true);
 	}
 }
 
 
-/**
- * a function that makes the robot move straight
- * @param speed: represents the speed of the robot the robot
- * @param distance: represents the distance to move by the robot
- * @param isForward: if true, the robot moves forward,otherwise, it moves backward
- *
- * Method 1: using tf and Calculate the distance between the two transformations
- */
-void move_v1(double speed, double distance, bool isForward){
-	//declare a Twist message to send velocity commands
-	geometry_msgs::Twist VelocityMessage;
-	//declare tf transform listener: this transform listener will be used to listen and capture the transformation between
-	// the /odom frame (that represent the reference frame) and the base_footprint frame the represent moving frame
-	tf::TransformListener listener;
-	//declare tf transform
-	//init_transform: is the transformation before starting the motion
-	tf::StampedTransform init_transform;
-	//current_transformation: is the transformation while the robot is moving
-	tf::StampedTransform current_transform;
-
-
-	//set the linear velocity to a positive value if isFoward is true
-	if (isForward)
-		VelocityMessage.linear.x =abs(speed);
-	else //else set the velocity to negative value to move backward
-		VelocityMessage.linear.x =-abs(speed);
-	//all velocities of other axes must be zero.
-	VelocityMessage.linear.y =0;
-	VelocityMessage.linear.z =0;
-	//The angular velocity of all axes must be zero because we want  a straight motion
-	VelocityMessage.angular.x = 0;
-	VelocityMessage.angular.y = 0;
-	VelocityMessage.angular.z =0;
-
-	double distance_moved = 0.0;
-	ros::Rate loop_rate(10); // we publish the velocity at 10 Hz (10 times a second)
-
-	/*
-	 * First, we capture the initial transformation before starting the motion.
-	 * we call this transformation "init_transform"
-	 * It is important to "waitForTransform" otherwise, it might not be captured.
-	 */
-	try{
-		//wait for the transform to be found
-		listener.waitForTransform("/base_footprint", "/odom", ros::Time(0), ros::Duration(10.0) );
-		//Once the transform is found,get the initial_transform transformation.
-		listener.lookupTransform("/base_footprint", "/odom",ros::Time(0), init_transform);
-	}
-	catch (tf::TransformException & ex){
-		ROS_ERROR(" Problem %s",ex.what());
-		ros::Duration(1.0).sleep();
-	}
-
-
-
-	do{
-		/***************************************
-		 * STEP1. PUBLISH THE VELOCITY MESSAGE
-		 ***************************************/
-		velocityPublisher.publish(VelocityMessage);
-		ros::spinOnce();
-		loop_rate.sleep();
-		/**************************************************
-		 * STEP2. ESTIMATE THE DISTANCE MOVED BY THE ROBOT
-		 *************************************************/
-		try{
-			//wait for the transform to be found
-			listener.waitForTransform("/base_footprint", "/odom", ros::Time(0), ros::Duration(10.0) );
-			//Once the transform is found,get the initial_transform transformation.
-			listener.lookupTransform("/base_footprint", "/odom",ros::Time(0), current_transform);
-		}
-		catch (tf::TransformException & ex){
-			ROS_ERROR(" Problem %s",ex.what());
-			ros::Duration(1.0).sleep();
-		}
-		/*
-		 * Calculate the distance moved by the robot
-		 * There are two methods that give the same result
-		 */
-
-		/*
-		 * Method 1: Calculate the distance between the two transformations
-		 * Hint:
-		 * 	  --> transform.getOrigin().x(): represents the x coordinate of the transformation
-		 * 	  --> transform.getOrigin().y(): represents the y coordinate of the transformation
-		 */
-		//calculate the distance moved
-		//cout<<"Initial Transform: "<<init_transform <<" , "<<"Current Transform: "<<current_transform<<endl;
-
-		distance_moved = sqrt(pow((current_transform.getOrigin().x()-init_transform.getOrigin().x()), 2) +
-				pow((current_transform.getOrigin().y()-init_transform.getOrigin().y()), 2));
-
-
-	}while((distance_moved<distance)&&(ros::ok()));
-	//finally, stop the robot when the distance is moved
-	VelocityMessage.linear.x =0;
-	velocityPublisher.publish(VelocityMessage);
-}
-
-/**
- * a function that makes the robot move straight
- * @param speed: represents the speed of the robot the robot
- * @param distance: represents the distance to move by the robot
- * @param isForward: if true, the robot moves forward,otherwise, it moves backward
- *
- * Method 2: using tf and we calculate the relative transform, then we determine its length
- */
-void move_v2(double speed, double distance, bool isForward){
-	//delcare a Twist message to send velocity commands
-	geometry_msgs::Twist VelocityMessage;
-	//declare tf transform listener: this transform listener will be used to listen and capture the transformation between
-	// the odom frame (that represent the reference frame) and the base_footprint frame the represent moving frame
-	tf::TransformListener listener;
-	//declare tf transform
-	//init_transform: is the transformation before starting the motion
-	tf::StampedTransform init_transform;
-	//current_transformation: is the transformation while the robot is moving
-	tf::StampedTransform current_transform;
-	//initial coordinates (for method 3)
-	nav_msgs::Odometry initial_turtlebot_odom_pose;
-
-	//set the linear velocity to a positive value if isFoward is true
-	if (isForward)
-		VelocityMessage.linear.x =abs(speed);
-	else //else set the velocity to negative value to move backward
-		VelocityMessage.linear.x =-abs(speed);
-	//all velocities of other axes must be zero.
-	VelocityMessage.linear.y = VelocityMessage.linear.z =VelocityMessage.angular.x =VelocityMessage.angular.y =VelocityMessage.angular.z =0;
-
-	double distance_moved = 0.0;
-	ros::Rate loop_rate(10); // we publish the velocity at 10 Hz (10 times a second)
-
-	/*
-	 * First, we capture the initial transformation before starting the motion.
-	 * we call this transformation "init_transform"
-	 * It is important to "waitForTransform" otherwise, it might not be captured.
-	 */
-	try{
-		//wait for the transform to be found
-		listener.waitForTransform("/base_footprint", "/odom", ros::Time(0), ros::Duration(10.0) );
-		//Once the transform is found,get the initial_transform transformation.
-		listener.lookupTransform("/base_footprint", "/odom",ros::Time(0), init_transform);
-	}
-	catch (tf::TransformException & ex){
-		ROS_ERROR(" Problem %s",ex.what());
-		ros::Duration(1.0).sleep();
-	}
-
-
-
-	do{
-		/***************************************
-		 * STEP1. PUBLISH THE VELOCITY MESSAGE
-		 ***************************************/
-		velocityPublisher.publish(VelocityMessage);
-		ros::spinOnce();
-		loop_rate.sleep();
-		/**************************************************
-		 * STEP2. ESTIMATE THE DISTANCE MOVED BY THE ROBOT
-		 *************************************************/
-		try{
-			//wait for the transform to be found
-			listener.waitForTransform("/base_footprint", "/odom", ros::Time(0), ros::Duration(10.0) );
-			//Once the transform is found,get the initial_transform transformation.
-			listener.lookupTransform("/base_footprint", "/odom",ros::Time(0), current_transform);
-		}
-		catch (tf::TransformException & ex){
-			ROS_ERROR(" Problem %s",ex.what());
-			ros::Duration(1.0).sleep();
-		}
-
-		/*
-		 * Method 2: using transform composition. We calculate the relative transform, then we determine its length
-		 * Hint:
-		 * 	  --> transform.getOrigin().length(): return the displacement of the origin of the transformation
-		 */
-		tf::Transform relative_transform = init_transform.inverse() * current_transform;
-		distance_moved= relative_transform.getOrigin().length();
-
-		//cout<<"Method 2: distance moved: "<<distance_moved <<", "<<distance<<endl;
-
-	}while((distance_moved<distance)&&(ros::ok()));
-	//finally, stop the robot when the distance is moved
-	VelocityMessage.linear.x =0;
-	velocityPublisher.publish(VelocityMessage);
-}
 
 
 /**
@@ -331,7 +141,7 @@ void move_v3(double speed, double distance, bool isForward){
 	velocityPublisher.publish(VelocityMessage);
 }
 
-
+/*
 
 double rotate(double angular_velocity, double radians,  bool clockwise)
 {
@@ -417,7 +227,7 @@ double rotate(double angular_velocity, double radians,  bool clockwise)
 	if (done) return angle_turned;
 	return angle_turned;
 }
-
+*/
 
 double calculateYaw( double x1, double y1, double x2,double y2)
 {
@@ -438,7 +248,5 @@ double radian2degree(double radianAngle){
 double degree2radian(double degreeAngle){
 	return (degreeAngle/57.2957795);
 }
-
-
 
 
