@@ -19,8 +19,8 @@
 */
 int main(int argc, char const *argv[])
 {
-    ros::init(argc, argv, "Bumper");
-    ros::NodeHandle n;
+  //  ros::init(argc, argv, "Bumper");
+  //  ros::NodeHandle n;
    // ros::Subscriber bumper_sub = n.subscribe("mobile_base/events/bumper", BumperEvent, processBump, 1, BumperCallback);
     return 0;
 }
