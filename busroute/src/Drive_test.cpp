@@ -6,11 +6,11 @@
 
 #include "ros/ros.h"
 #include "geometry_msgs/Twist.h"
-#include "sensor_msgs/LaserScan.h"
+//#include "sensor_msgs/LaserScan.h"
 #include "nav_msgs/Odometry.h"
 #include "tf/tf.h"
 #include <tf/transform_listener.h>
-#include <fstream>
+//#include <fstream>
 
 using namespace std;
 #define LINEAR_VELOCITY_MINIMUM_THRESHOLD 0.2
@@ -91,7 +91,7 @@ void poseCallback(const nav_msgs::Odometry::ConstPtr & pose_message){
 }
 
 void moveSquare(double sideLength){
-	for (int i=0;i<4;i++){
+	for (int i=0;i<1;i++){
 		move_v3(0.3, sideLength, true);
 //		rotate (0.3, degree2radian(90), true);
 	}
@@ -116,7 +116,7 @@ void move_v3(double speed, double distance, bool isForward){
 
 	//set the linear velocity to a positive value if isFoward is true
 	if (isForward)
-		VelocityMessage.linear.x =abs(speed);
+		VelocityMessage.linear.x =abs(0.2);
 	else //else set the velocity to negative value to move backward
 		VelocityMessage.linear.x =-abs(speed);
 	//all velocities of other axes must be zero.

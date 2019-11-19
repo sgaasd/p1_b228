@@ -63,7 +63,11 @@ int main(int argc, char *argv[])
 
     ros::NodeHandle n;
 
+<<<<<<< HEAD
     cmd_vel_pub = n.advertise<geometry_msgs::Twist>("/cmd_vel_mux/input/teleop", 1);
+=======
+    ros::Publisher cmd_vel_pub = n.advertise<geometry_msgs::Twist>("cmd_vel_mux/input/teleop", 1);
+>>>>>>> e8935741ba707307df5cebecc50338e776a09007
     
     move something;
 
