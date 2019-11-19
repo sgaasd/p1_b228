@@ -2,11 +2,8 @@
 #include <kobuki_msgs/BumperEvent.h>
 using namespace std;
 
-int hit;
-bool bump;
-
 void BumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg){
-    int hit = msg->state;
+    bool hit = msg->state;
     int bump = msg->bumper;
         if (hit==1)
         {
@@ -17,16 +14,12 @@ void BumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg){
         }
 }
 
-
-
 int main(int argc, char *argv[])
 {
     ros::init(argc, argv, "Bumper");
     ros::NodeHandle n;
     ros::Subscriber Bumper_sub = n.subscribe("mobile_base/events/bumper", 10, BumperCallback);
-    cout << "test" << endl;
-   
-    
+
     ros::spin();
     return 0;
 }
