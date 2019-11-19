@@ -1,77 +1,80 @@
 #include <ros/ros.h>
 #include <geometry_msgs/Twist.h>
 #include <nav_msgs/Odometry.h>
+#include <math.h>
 
-float PosX = 0;
-float PosY = 0;
-float PrePosX;
-float PrePosY;
-float dist = 0;
-float driven = 0;
+ros::Publisher cmd_vel_pub;
 
+class move{
+    public:
 
-class Something
-{
-public:
-    void operator()(const nav_msgs::Odometry::ConstPtr& msg)
-    {
-        PosX = msg->pose.pose.position.x;
-        PosY = msg->pose.pose.position.y;
-        std::cout << "Ha " << std::endl;
-    }
-    void callback(const nav_msgs::Odometry::ConstPtr& msg)
-    {
-        PosX = msg->pose.pose.position.x;
-        PosY = msg->pose.pose.position.y;
-        std::cout << "Ha " << std::endl;
-    }
+        float dist1;
+
+        void distance(float distance){
+            dist1 = distance;
+        }
+
+        void publis(const nav_msgs::Odometry::ConstPtr& msg){
+            float PosX = msg->pose.pose.position.x;
+            float PosY = msg->pose.pose.position.y;
+            float driven = sqrt(PosX*PosX + PosY*PosY);
+
+            std::cout << "Driven: " << driven << std::endl;
+            std::cout << "1" << std::endl;
+
+            if (driven < dist1){
+                
+                std::cout << "2" << std::endl;
+                
+                geometry_msgs::Twist cmd_vel_message;
+
+                std::cout << "3" << std::endl;
+
+                cmd_vel_message.angular.z = 0.0;
+                cmd_vel_message.linear.x = 0.05;
+
+                std::cout << "4" << std::endl;
+
+                cmd_vel_pub.publish(cmd_vel_message);
+
+                std::cout << "5" << std::endl;
+        
+            } else {
+                geometry_msgs::Twist cmd_vel_message;
+                cmd_vel_message.angular.z = 0.0;
+                cmd_vel_message.linear.x = 0.00;
+                cmd_vel_pub.publish(cmd_vel_message);
+            }
+        
+        }
+    private:
+        
+        
 };
-
-
-void chatterCallback(const nav_msgs::Odometry::ConstPtr& msg){
-    PosX = msg->pose.pose.position.x;
-    PosY = msg->pose.pose.position.y;
-    ROS_INFO( "Hello from ROS ");
-//    std::cout << "mha" << std::endl;
-}
 
 int main(int argc, char *argv[])
 {
+    float dist;
     ros::init(argc, argv, "Drive");
 
     std::cout << "Hvor langt skal den køre?" << std::endl;
-    std::cin >> dist; // odom_sub
+    std::cin >> dist;
 
     ros::NodeHandle n;
 
-    ros::Publisher cmd_vel_pub = n.advertise<geometry_msgs::Twist>("cmd_vel_mux/input/teleop", 1);
+    cmd_vel_pub = n.advertise<geometry_msgs::Twist>("/cmd_vel_mux/input/teleop", 1);
     
-    ros::Subscriber odom_sub = n.subscribe("odom", 1, chatterCallback);
-    //boost::shared_ptr<Something> something = boost::make_shared<Something>();
-    // ros::Subscriber odom_sub = n.subscribe("odom", 1, &Something::callback, something );
+    move something;
 
+    std::cout << "Jeg er nu før publishing og subscriber" << std::endl;
 
-    while (ros::ok)
-    {  
-        // chatterCallback();
-        driven = sqrt(((PosX*PosX)+(PosY*PosY)));
+    something.dist1 = dist;
 
-        if(driven < dist){
-            geometry_msgs::Twist cmd_vel_message;
-            cmd_vel_message.linear.x = 0.05;
-            cmd_vel_pub.publish(cmd_vel_message);
-        } else {
-            geometry_msgs::Twist cmd_vel_message;
-            cmd_vel_message.linear.x = 0.05;
-            cmd_vel_pub.publish(cmd_vel_message);
-        }
-
-
-        std::cout << driven << " out of " << dist << " driven." << std::endl;
-
-        //std::cout << PrePosX << ", " << PrePosY << std::endl;
-    }
+    ros::Subscriber odom_sub = n.subscribe("odom", 1, &move::publis, &something);
     
+    std::cout << "Jeg er forbi publishing"  << std::endl;
+
+    ros::spin();
+
     return 0;
-
 }
