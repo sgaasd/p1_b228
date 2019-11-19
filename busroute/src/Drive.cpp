@@ -7,7 +7,7 @@ ros::Publisher cmd_vel_pub;
 
 class move{
     public:
-
+        
         float dist1;
 
         void distance(float distance){
