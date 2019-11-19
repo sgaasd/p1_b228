@@ -92,6 +92,8 @@ void poseCallback(const nav_msgs::Odometry::ConstPtr & pose_message){
 
 void moveSquare(double sideLength){
 	for (int i=0;i<1;i++){
+        std::cout << "Hvor langt skal den køre?" << std::endl;
+        std::cin >> sideLength;
 		move_v3(0.3, sideLength, true);
 //		rotate (0.3, degree2radian(90), true);
 	}
@@ -116,7 +118,7 @@ void move_v3(double speed, double distance, bool isForward){
 
 	//set the linear velocity to a positive value if isFoward is true
 	if (isForward)
-		VelocityMessage.linear.x =abs(0.2);
+		VelocityMessage.linear.x =abs(speed);
 	else //else set the velocity to negative value to move backward
 		VelocityMessage.linear.x =-abs(speed);
 	//all velocities of other axes must be zero.
