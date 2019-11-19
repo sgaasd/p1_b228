@@ -1,17 +1,20 @@
 #include <ros/ros.h>
 #include <kobuki_msgs/BumperEvent.h>
+using namespace std;
+
+int hit;
+bool bump;
 
 void BumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg){
-    int bump = msg->state;
-    
-    
-    if (bump ==1)
-    {
-         std::cout << "bumper er trykket" << std::endl;
-    }
-    else {
-        std::cout << "bumper er ikke trykket" << std::endl;
-    }
+    int hit = msg->state;
+    int bump = msg->bumper;
+        if (hit==1)
+        {
+            cout << "Bumper " << bump << " er trykket" << endl;
+            }
+        else {
+            cout << "bumper er ikke trykket" << endl;
+        }
 }
 
 
@@ -20,9 +23,10 @@ int main(int argc, char *argv[])
 {
     ros::init(argc, argv, "Bumper");
     ros::NodeHandle n;
-ros::Subscriber Bumper_sub = n.subscribe("mobile_base/events/bumper", 1, BumperCallback);
+    ros::Subscriber Bumper_sub = n.subscribe("mobile_base/events/bumper", 10, BumperCallback);
+    cout << "test" << endl;
    
     
-    
+    ros::spin();
     return 0;
 }
