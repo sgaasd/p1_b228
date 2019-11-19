@@ -2,5 +2,11 @@
     "python.autoComplete.extraPaths": [
         "/opt/ros/kinetic/lib/python2.7/dist-packages"
     ],
+<<<<<<< HEAD
     "ros.distro": "kinetic"
+=======
+    "files.associations": {
+        "iostream": "cpp"
+    }
+>>>>>>> a0aad1843d59cab8efe1e0cb040d8d6ed9e0098a
 }
