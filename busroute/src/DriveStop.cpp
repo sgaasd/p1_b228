@@ -6,6 +6,24 @@ using namespace std;
 
 ros::Publisher cmd_vel_pub;
 
+/*geometry_msgs::Twist vel_msg(int t1, int t2, int bumper, const kobuki_msgs::BumperEvent::ConstPtr& msg2){
+    ros::Rate loop_rate(21);
+    for(int i=0; i<=t1*21; i++){ 
+            cmd_vel_message.angular.z = 0.00;
+            cmd_vel_message.linear.x = -0.10;
+            cmd_vel_pub.publish(cmd_vel_message);
+            cout << cmd_vel_message << endl;
+            loop_rate.sleep();
+    }
+    for(int i=0; i<=t1*21; i++){
+        cmd_vel_message.angular.z = 0.50;
+        cmd_vel_message.linear.x = 0.00;
+        cmd_vel_pub.publish(cmd_vel_message);
+        cout << cmd_vel_message << endl;
+        loop_rate.sleep();
+    }
+}*/
+
 void BumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg){
     geometry_msgs::Twist cmd_vel_message;
     bool hit = msg->state;
