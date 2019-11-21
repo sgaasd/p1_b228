@@ -1,3 +1,4 @@
+#define _USE_MATH_DEFINES
 #include <ros/ros.h>
 #include <geometry_msgs/Twist.h>
 #include <nav_msgs/Odometry.h>
@@ -55,6 +56,9 @@ void drive(const nav_msgs::Odometry::ConstPtr& msg){
     float PosX = msg->pose.pose.position.x-PrePosX;
     float PosY = msg->pose.pose.position.y-PrePosY;
     float driven1 = sqrt(PosX*PosX + PosY*PosY);
+
+    float AngleZ = msg->pose.pose.orientation.z;
+    //float driven2 = (driven1 + dist1);
     
     std::cout << CorSet << std::endl;
     std::cout << "Coordinates: " << PosX << ", " << PosY << std::endl;
@@ -71,10 +75,10 @@ void drive(const nav_msgs::Odometry::ConstPtr& msg){
         cmd_vel_pub.publish(cmd_vel_message);
         CorSet = false;
     }
+//3.14159265358979323846
+    angle = (((grader * M_PI) / 180) / 2);
 
-    angle = (((grader * 3.14159265358979323846) / 180) / 2);
-
-    if (driven1 > dist1 && theta < angle)
+    if (driven1 > dist1 && AngleZ < angle)
     {
         for (int i=0; i=40; i++){
             cmd_vel_message.angular.z = angle;
@@ -84,7 +88,7 @@ void drive(const nav_msgs::Odometry::ConstPtr& msg){
         }
         
     }
-     if (driven2 < dist2){       
+     if (driven1 < dist2 && AngleZ > angle){       
         cmd_vel_message.angular.z = 0.0;
         cmd_vel_message.linear.x = 0.05;
         cmd_vel_pub.publish(cmd_vel_message);
