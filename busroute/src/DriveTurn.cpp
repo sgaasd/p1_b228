@@ -10,14 +10,14 @@ void drive(const nav_msgs::Odometry::ConstPtr& msg);
 ros::Publisher cmd_vel_pub;
 
 float dist1;
-double angle1;
-double angle2;
+float angle1;
+float angle2;
 float dist2;
-double grader;
+float grader;
 
 float PrePosX = 0;
 float PrePosY = 0;
-double PrePosZ = 0;
+float PrePosZ = 0;
 
 bool CorSet = false;
 
@@ -59,9 +59,9 @@ void drive(const nav_msgs::Odometry::ConstPtr& msg){
 
     float PosX = msg->pose.pose.position.x-PrePosX;
     float PosY = msg->pose.pose.position.y-PrePosY;
-    double PosZ = msg->pose.pose.orientation.z-PrePosZ;
+    float PosZ = msg->pose.pose.orientation.z-PrePosZ;
     float driven1 = sqrt(PosX*PosX + PosY*PosY);
-    double AngleZ = msg->pose.pose.orientation.z;
+    float AngleZ = msg->pose.pose.orientation.z;
   
     float driven2 = dist2 + dist1;
     
@@ -89,7 +89,9 @@ void drive(const nav_msgs::Odometry::ConstPtr& msg){
                 cmd_vel_pub.publish(cmd_vel_message);
                 std::cout << "Angle in radians " << PosZ << std::endl;
                 }
-            
+                cmd_vel_message.angular.z = 0.0;
+                cmd_vel_pub.publish(cmd_vel_message);
+
             if (driven1 < driven2){       
             cmd_vel_message.angular.z = 0.0;
             cmd_vel_message.linear.x = 0.05;
