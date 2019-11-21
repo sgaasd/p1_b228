@@ -64,7 +64,7 @@ void drive(const nav_msgs::Odometry::ConstPtr& msg){
     float AngleZ = msg->pose.pose.orientation.z;
   
     float driven2 = dist2 + dist1;
-    
+     ros::Rate loop_rate(1);
     
     std::cout << CorSet << std::endl;
     std::cout << "Coordinates1: " << PosX << ", " << PosY << std::endl;
@@ -76,13 +76,14 @@ void drive(const nav_msgs::Odometry::ConstPtr& msg){
         cmd_vel_pub.publish(cmd_vel_message);
     } 
     else {
-        cmd_vel_message.angular.z = 0.0;
+       /* cmd_vel_message.angular.z = 0.0;
         cmd_vel_message.linear.x = 0.00;
-        cmd_vel_pub.publish(cmd_vel_message);
+        cmd_vel_pub.publish(cmd_vel_message);*/
 
         angle1 = (((grader * M_PI) / 180) / 2);
         angle2 = ((grader * M_PI) / 180);
         
+<<<<<<< HEAD
             for (int i=0; i=2; i++){
                 cmd_vel_message.angular.z = 0.38;
                 cmd_vel_message.linear.x = 0.00;
@@ -93,6 +94,23 @@ void drive(const nav_msgs::Odometry::ConstPtr& msg){
                 cmd_vel_pub.publish(cmd_vel_message);
 
             if (driven1 < driven2){       
+=======
+            if(PosZ < angle1){
+            cmd_vel_message.angular.z = 0.38;
+            cmd_vel_message.linear.x = 0.00;
+            cmd_vel_pub.publish(cmd_vel_message);
+            std::cout << "Angle in radians posZ " << PosZ << std::endl;
+            std::cout << "Angle in radians angle2 " << angle2 << std::endl;
+            std::cout << "Angle in radians angle1 " << angle1 << std::endl;
+            }
+            if(PosZ > angle2){
+        CorSet = false;
+            cmd_vel_message.angular.z = 0.00;
+            cmd_vel_message.linear.x = 0.00;
+            cmd_vel_pub.publish(cmd_vel_message);
+            }
+           /* if (driven1 < driven2){       
+>>>>>>> db3ae3ada26cbf2be264d2e98d0012095e1c8b92
             cmd_vel_message.angular.z = 0.0;
             cmd_vel_message.linear.x = 0.05;
             cmd_vel_pub.publish(cmd_vel_message);
@@ -102,7 +120,7 @@ void drive(const nav_msgs::Odometry::ConstPtr& msg){
                 cmd_vel_message.linear.x = 0.00;
                 cmd_vel_pub.publish(cmd_vel_message);
                 CorSet = false;
-            }
+            }*/
         }
         
     
