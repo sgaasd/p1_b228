@@ -133,6 +133,7 @@ add_executable(Drive_test_node src/Drive_test.cpp)
 add_executable(Bumper_node src/Bumper.cpp)
 add_executable(Drive_function src/Drive_function.cpp)
 add_executable(DriveStop_node src/DriveStop.cpp)
+add_executable(DriveTurn_node src/DriveTurn.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
@@ -161,6 +162,10 @@ target_link_libraries(Drive_function
 )
 
 target_link_libraries(DriveStop_node
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(DriveTurn_node
   ${catkin_LIBRARIES}
 )
 #############
