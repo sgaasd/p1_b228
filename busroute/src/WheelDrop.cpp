@@ -6,6 +6,7 @@ using namespace std;
 //Publisher varible is initialised 
 ros::Publisher cmd_vel_pub;
 
+//pressed defineres som en global variable 
 bool pressed;
 
 //A function for defining cmd_vel_message is created  
@@ -17,6 +18,7 @@ geometry_msgs::Twist WheelMsg(float x, float z){
     return cmd_vel_message;
 }
 
+//Funktion for pressed og wheel. Her får de deres værdier 
 void WheelDrop_callBack(const kobuki_msgs::WheelDropEvent::ConstPtr& msg){
     bool wheel = msg->wheel;
     pressed = msg->state;
@@ -53,6 +55,7 @@ int main(int argc, char *argv[]){
     cmd_vel_pub = n.advertise<geometry_msgs::Twist>("/cmd_vel_mux/input/safety_controller", 1);
     ros::Subscriber WheelDrop_sub = n.subscribe("/mobile_base/events/wheel_drop", 1, WheelDrop_callBack);
     
+    //Et forsøg på at få den til at virke 
     ros::Rate loop_rate(21);
     if(pressed==1){
         cmd_vel_pub.publish(WheelMsg(0.0, 0.0));
