@@ -10,14 +10,14 @@ void drive(const nav_msgs::Odometry::ConstPtr& msg);
 ros::Publisher cmd_vel_pub;
 
 float dist1;
-double angle1;
-double angle2;
+float angle1;
+float angle2;
 float dist2;
-double grader;
+float grader;
 
 float PrePosX = 0;
 float PrePosY = 0;
-double PrePosZ = 0;
+float PrePosZ = 0;
 
 bool CorSet = false;
 
@@ -59,12 +59,12 @@ void drive(const nav_msgs::Odometry::ConstPtr& msg){
 
     float PosX = msg->pose.pose.position.x-PrePosX;
     float PosY = msg->pose.pose.position.y-PrePosY;
-    double PosZ = msg->pose.pose.orientation.z-PrePosZ;
+    float PosZ = msg->pose.pose.orientation.z-PrePosZ;
     float driven1 = sqrt(PosX*PosX + PosY*PosY);
     double AngleZ = msg->pose.pose.orientation.z;
   
     float driven2 = dist2 + dist1;
-    
+     ros::Rate loop_rate(1);
     
     std::cout << CorSet << std::endl;
     std::cout << "Coordinates1: " << PosX << ", " << PosY << std::endl;
@@ -76,21 +76,28 @@ void drive(const nav_msgs::Odometry::ConstPtr& msg){
         cmd_vel_pub.publish(cmd_vel_message);
     } 
     else {
-        cmd_vel_message.angular.z = 0.0;
+       /* cmd_vel_message.angular.z = 0.0;
         cmd_vel_message.linear.x = 0.00;
-        cmd_vel_pub.publish(cmd_vel_message);
+        cmd_vel_pub.publish(cmd_vel_message);*/
 
         angle1 = (((grader * M_PI) / 180) / 2);
         angle2 = ((grader * M_PI) / 180);
         
-            for (int i=0; i=2; i++){
-                cmd_vel_message.angular.z = 0.38;
-                cmd_vel_message.linear.x = 0.00;
-                cmd_vel_pub.publish(cmd_vel_message);
-                std::cout << "Angle in radians " << PosZ << std::endl;
-                }
-            
-            if (driven1 < driven2){       
+            if(PosZ < angle1){
+            cmd_vel_message.angular.z = 0.38;
+            cmd_vel_message.linear.x = 0.00;
+            cmd_vel_pub.publish(cmd_vel_message);
+            std::cout << "Angle in radians posZ " << PosZ << std::endl;
+            std::cout << "Angle in radians angle2 " << angle2 << std::endl;
+            std::cout << "Angle in radians angle1 " << angle1 << std::endl;
+            }
+            if(PosZ > angle2){
+        CorSet = false;
+            cmd_vel_message.angular.z = 0.00;
+            cmd_vel_message.linear.x = 0.00;
+            cmd_vel_pub.publish(cmd_vel_message);
+            }
+           /* if (driven1 < driven2){       
             cmd_vel_message.angular.z = 0.0;
             cmd_vel_message.linear.x = 0.05;
             cmd_vel_pub.publish(cmd_vel_message);
@@ -100,7 +107,7 @@ void drive(const nav_msgs::Odometry::ConstPtr& msg){
                 cmd_vel_message.linear.x = 0.00;
                 cmd_vel_pub.publish(cmd_vel_message);
                 CorSet = false;
-            }
+            }*/
         }
         
     
