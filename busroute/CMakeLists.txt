@@ -170,7 +170,7 @@ target_link_libraries(DriveTurn_node
   ${catkin_LIBRARIES}
 )
 
-target_link_libraries(WheelDrop
+target_link_libraries(WheelDrop_node
   ${catkin_LIBRARIES}
 )
 #############
