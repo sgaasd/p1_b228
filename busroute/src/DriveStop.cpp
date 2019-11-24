@@ -35,11 +35,10 @@ void BumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg){
                 }
                 for(int i=0; i<=42; i++){
                     cmd_vel_pub.publish(BumpMsg(0.0, -0.3));
-                    cout << cmd_vel_message << endl;
                     loop_rate.sleep();
                 }
             break;
-            //If the bumper on the middle is pressed the bumper will turn left 
+            //If the bumper on the middle is pressed the robot will turn left 
             case 1:
                 for(int i=0; i<=42; i++){ 
                     cmd_vel_pub.publish(BumpMsg(-0.2, 0.0));
@@ -50,7 +49,7 @@ void BumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg){
                     loop_rate.sleep();
                 }
             break;
-            //If the bumper on the right side is pressed the bumper will turn left 
+            //If the bumper on the right side is pressed the robot will turn left 
             case 2:
                 for(int i=0; i<=42; i++){ 
                     cmd_vel_pub.publish(BumpMsg(-0.2, 0.0));
