@@ -8,7 +8,7 @@ void BumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg){
         if (hit==1)
         {
             cout << "Bumper " << bump << " er trykket" << endl;
-            }
+        }
         else {
             cout << "bumper er ikke trykket" << endl;
         }
