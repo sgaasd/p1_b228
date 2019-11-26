@@ -3,9 +3,9 @@
 #include <geometry_msgs/Twist.h>
 #include <nav_msgs/Odometry.h>
 #include <math.h>
+#include <tf/transform_datatypes.h>
 
 void drive(const nav_msgs::Odometry::ConstPtr& msg);
-
 
 ros::Publisher cmd_vel_pub;
 
@@ -50,10 +50,20 @@ int main(int argc, char *argv[])
 
 void drive(const nav_msgs::Odometry::ConstPtr& msg){
 
+// Dette er nyt til at omregne quaternion til euler angle
+//https://answers.ros.org/question/50113/transform-quaternion/
+//https://gist.github.com/marcoarruda/f931232fe3490b7fa20dbb38da1195ac
+
+    tf::Quaternion q(msg->pose.pose.orientation.x, msg->pose.pose.orientation.y, msg->pose.pose.orientation.z, msg->pose.pose.orientation.w);
+    tf::Matrix3x3 m(q);
+    double roll, pitch, yaw;
+    m.getRPY(roll, pitch, yaw);
+    std::cout << "Roll: " << roll << ", Pitch: " << pitch << ", Yaw: " << yaw << std::endl;
+// her slutter omregningen og yaw bruges nede i if statement
+
     if(CorSet == false) {
         PrePosX = msg->pose.pose.position.x;
         PrePosY = msg->pose.pose.position.y;
-        PrePosZ = msg->pose.pose.orientation.z;
         CorSet = true;
     }
 
@@ -64,24 +74,27 @@ void drive(const nav_msgs::Odometry::ConstPtr& msg){
     float AngleZ = msg->pose.pose.orientation.z;
   
     float driven2 = dist2 + dist1;
-     ros::Rate loop_rate(1);
+    
+    ros::Rate loop_rate(1);
     
     std::cout << CorSet << std::endl;
-    std::cout << "Coordinates1: " << PosX << ", " << PosY << std::endl;
+   
     geometry_msgs::Twist cmd_vel_message;
     
     if (driven1 < dist1){       
         cmd_vel_message.angular.z = 0.0;
         cmd_vel_message.linear.x = 0.05;
         cmd_vel_pub.publish(cmd_vel_message);
+        std::cout << "Coordinates1: " << PosX << ", " << PosY << std::endl;
     } 
     else {
-       /* cmd_vel_message.angular.z = 0.0;
+        cmd_vel_message.angular.z = 0.0;
         cmd_vel_message.linear.x = 0.00;
-        cmd_vel_pub.publish(cmd_vel_message);*/
+        cmd_vel_pub.publish(cmd_vel_message);
 
         angle1 = (((grader * M_PI) / 180) / 2);
         angle2 = ((grader * M_PI) / 180);
+<<<<<<< HEAD
         
 <<<<<<< HEAD
             for (int i=0; i=2; i++){
@@ -105,10 +118,31 @@ void drive(const nav_msgs::Odometry::ConstPtr& msg){
             }
             if(PosZ > angle2){
         CorSet = false;
+=======
+
+// if statement hvor yaw bliver større og større indtil den rammer angle 2
+        if(yaw < angle2){
+        cmd_vel_message.angular.z = 0.10;
+        cmd_vel_message.linear.x = 0.00;
+        cmd_vel_pub.publish(cmd_vel_message);
+        std::cout << "Angle in radians posZ " << PosZ << std::endl;
+        std::cout << "Angle in radians yaw " << yaw << std::endl;
+        std::cout << "Angle in radians angle2 " << angle2 << std::endl;
+        std::cout << "Angle in radians angle1 " << angle1 << std::endl;
+        }
+        else{
+>>>>>>> 4061d02ac4ddffddcda927069c6143d81cd9b1e4
             cmd_vel_message.angular.z = 0.00;
             cmd_vel_message.linear.x = 0.00;
             cmd_vel_pub.publish(cmd_vel_message);
+            
+            if (driven1 < driven2){
+                cmd_vel_message.angular.z = 0.00;
+                cmd_vel_message.linear.x = 0.05;
+                cmd_vel_pub.publish(cmd_vel_message);
+                std::cout << "Coordinates2: " << PosX << ", " << PosY << std::endl;
             }
+<<<<<<< HEAD
            /* if (driven1 < driven2){       
 >>>>>>> db3ae3ada26cbf2be264d2e98d0012095e1c8b92
             cmd_vel_message.angular.z = 0.0;
@@ -117,60 +151,18 @@ void drive(const nav_msgs::Odometry::ConstPtr& msg){
             }
            else {
                 cmd_vel_message.angular.z = 0.0;
+=======
+            else{
+                cmd_vel_message.angular.z = 0.00;
+>>>>>>> 4061d02ac4ddffddcda927069c6143d81cd9b1e4
                 cmd_vel_message.linear.x = 0.00;
                 cmd_vel_pub.publish(cmd_vel_message);
                 CorSet = false;
-            }*/
+            }
+                
+                
         }
-        
+          
+    }    
     
 }
-/*
-void turn(const nav_msgs::Odometry::ConstPtr& msg){
-    if(CorSet == false) {
-        PrePosX = msg->pose.pose.position.x;
-        PrePosY = msg->pose.pose.position.y;
-        CorSet = true;
-    }
-
-    float PosX = msg->pose.pose.position.x-PrePosX;
-    float PosY = msg->pose.pose.position.y-PrePosY;
-    float driven1 = sqrt(PosX*PosX + PosY*PosY);
-
-    
-
-}
-
-void drive2(const nav_msgs::Odometry::ConstPtr& msg){
-
-    if(CorSet == false) {
-        PrePosX = msg->pose.pose.position.x;
-        PrePosY = msg->pose.pose.position.y;
-        CorSet = true;
-    }
-
-    float PosX = msg->pose.pose.position.x-PrePosX;
-    float PosY = msg->pose.pose.position.y-PrePosY;
-    float driven1 = sqrt(PosX*PosX + PosY*PosY);
-
-    //float driven2 = (driven1 + dist1);
-    
-    std::cout << CorSet << std::endl;
-    std::cout << "Coordinates2: " << PosX << ", " << PosY << std::endl;
-    geometry_msgs::Twist cmd_vel_message;
-    
-    float driven2 = dist2 + dist1;
-
-     if (driven1 < driven2){       
-        cmd_vel_message.angular.z = 0.0;
-        cmd_vel_message.linear.x = 0.05;
-        cmd_vel_pub.publish(cmd_vel_message);
-    } else {
-        cmd_vel_message.angular.z = 0.0;
-        cmd_vel_message.linear.x = 0.00;
-        cmd_vel_pub.publish(cmd_vel_message);
-        CorSet = false;
-    }
-
-}
-*/
