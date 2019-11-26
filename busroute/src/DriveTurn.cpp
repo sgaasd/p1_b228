@@ -18,8 +18,11 @@ float grader;
 float PrePosX = 0;
 float PrePosY = 0;
 float PrePosZ = 0;
+float PrePosX1 = 0;
+float PrePosY1 = 0;
 
 bool CorSet = false;
+bool CorSet1 = false;
 
 int main(int argc, char *argv[])
 {
@@ -66,14 +69,21 @@ void drive(const nav_msgs::Odometry::ConstPtr& msg){
         PrePosY = msg->pose.pose.position.y;
         CorSet = true;
     }
+    if(CorSet1 == false) {
+        PrePosX1 = msg->pose.pose.position.x;
+        PrePosY1 = msg->pose.pose.position.y;
+        CorSet1 = true;
+    }
 
     float PosX = msg->pose.pose.position.x-PrePosX;
     float PosY = msg->pose.pose.position.y-PrePosY;
     float PosZ = msg->pose.pose.orientation.z-PrePosZ;
     float driven1 = sqrt(PosX*PosX + PosY*PosY);
     double AngleZ = msg->pose.pose.orientation.z;
-  
-    float driven2 = dist2 + dist1;
+
+    float PosX1 = msg->pose.pose.position.x-PrePosX1;
+    float PosY1 = msg->pose.pose.position.y-PrePosY1;
+ float driven2 = sqrt(PosX1*PosX1 + PosY1*PosY1);
     
     ros::Rate loop_rate(1);
     
@@ -104,23 +114,27 @@ void drive(const nav_msgs::Odometry::ConstPtr& msg){
         std::cout << "Angle in radians yaw " << yaw << std::endl;
         std::cout << "Angle in radians angle2 " << angle2 << std::endl;
         std::cout << "Angle in radians angle1 " << angle1 << std::endl;
+        CorSet1 = false;
         }
         else{
             cmd_vel_message.angular.z = 0.00;
             cmd_vel_message.linear.x = 0.00;
             cmd_vel_pub.publish(cmd_vel_message);
             
-            if (driven1 < driven2){
+            
+            if (driven2 < dist2){
                 cmd_vel_message.angular.z = 0.00;
                 cmd_vel_message.linear.x = 0.05;
                 cmd_vel_pub.publish(cmd_vel_message);
-                std::cout << "Coordinates2: " << PosX << ", " << PosY << std::endl;
+                std::cout << "driven1 " << driven1 << "driven2 " << driven2 << std::endl;
             }
             else{
                 cmd_vel_message.angular.z = 0.00;
                 cmd_vel_message.linear.x = 0.00;
                 cmd_vel_pub.publish(cmd_vel_message);
-                CorSet = false;
+                CorSet = true;
+                CorSet1 = true;
+                std::exit;
             }
                 
                 
