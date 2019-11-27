@@ -55,10 +55,12 @@ bool moveToGoal(double xGoal, double yGoal){
 
    //set up the frame parameters
    goal.target_pose.header.frame_id = "map";
+   // goal.target_pose.header.frame_id = "base_link";
    goal.target_pose.header.stamp = ros::Time::now();
 
    /* moving towards the goal*/
-
+    
+    
    goal.target_pose.pose.position.x =  xGoal;
    goal.target_pose.pose.position.y =  yGoal;
    goal.target_pose.pose.position.z =  0.0;
