@@ -9,7 +9,8 @@ roscpp
 geometry_msgs 
 move_base_msgs 
 actionlib
-kobuki_msgs)
+kobuki_msgs
+)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -136,6 +137,7 @@ add_executable(DriveStop_node src/DriveStop.cpp)
 add_executable(DriveTurn_node src/DriveTurn.cpp)
 add_executable(WheelDrop_node src/WheelDrop.cpp)
 add_executable(Cliff_node src/Cliff.cpp)
+add_executable(MoveGoal_node src/MoveGoal.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
@@ -176,6 +178,10 @@ target_link_libraries(WheelDrop_node
 )
 
 target_link_libraries(Cliff_node
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(MoveGoal_node
   ${catkin_LIBRARIES}
 )
 #############
