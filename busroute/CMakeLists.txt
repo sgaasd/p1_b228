@@ -134,10 +134,11 @@ add_executable(Drive_test_node src/Drive_test.cpp)
 add_executable(Bumper_node src/Bumper.cpp)
 add_executable(Drive_function src/Drive_function.cpp)
 add_executable(DriveStop_node src/DriveStop.cpp)
-add_executable(DriveTurn_node src/DriveTurn.cpp)
+#add_executable(DriveTurn_node src/DriveTurn.cpp)
 add_executable(WheelDrop_node src/WheelDrop.cpp)
 add_executable(Cliff_node src/Cliff.cpp)
 add_executable(MoveGoal_node src/MoveGoal.cpp)
+add_executable(CostmapUpdate_node src/CostmapUpdate.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
@@ -169,9 +170,9 @@ target_link_libraries(DriveStop_node
   ${catkin_LIBRARIES}
 )
 
-target_link_libraries(DriveTurn_node
-  ${catkin_LIBRARIES}
-)
+#target_link_libraries(DriveTurn_node
+#  ${catkin_LIBRARIES}
+#)
 
 target_link_libraries(WheelDrop_node
   ${catkin_LIBRARIES}
@@ -182,6 +183,10 @@ target_link_libraries(Cliff_node
 )
 
 target_link_libraries(MoveGoal_node
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(CostmapUpdate_node
   ${catkin_LIBRARIES}
 )
 #############

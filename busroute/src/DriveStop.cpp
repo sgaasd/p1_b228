@@ -33,7 +33,7 @@ void BumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg){
                     cmd_vel_pub.publish(BumpMsg(-0.2, 0.0));
                     loop_rate.sleep();
                 }
-                for(int i=0; i<=42; i++){
+                for(int i=0; i<=42; i++){ 
                     cmd_vel_pub.publish(BumpMsg(0.0, -0.3));
                     loop_rate.sleep();
                 }

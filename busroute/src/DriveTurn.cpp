@@ -79,17 +79,9 @@ void drive(const nav_msgs::Odometry::ConstPtr& msg){
     float PosY = msg->pose.pose.position.y-PrePosY;
     float PosZ = msg->pose.pose.orientation.z-PrePosZ;
     float driven1 = sqrt(PosX*PosX + PosY*PosY);
-<<<<<<< HEAD
     float AngleZ = msg->pose.pose.orientation.z;
   
     float driven2 = dist2 + dist1;
-=======
-    double AngleZ = msg->pose.pose.orientation.z;
-
-    float PosX1 = msg->pose.pose.position.x-PrePosX1;
-    float PosY1 = msg->pose.pose.position.y-PrePosY1;
- float driven2 = sqrt(PosX1*PosX1 + PosY1*PosY1);
->>>>>>> e32dabc568d3c91df27b17ddd696d66575d9b978
     
     ros::Rate loop_rate(1);
     
