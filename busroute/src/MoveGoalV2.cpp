@@ -3,7 +3,7 @@
 #include <actionlib/client/simple_action_client.h>
 
 /* Declaration of function, so they can be called in main */
-bool DriveToGoal(double xGoal, double yGoal);
+bool moveToGoal(double xGoal, double yGoal);
 char choose();
 
 /* Coordinates of locations on the map, whare the robot shall drive between*/
@@ -21,7 +21,7 @@ double yRum1 = 00.00;
 
 
 /* Declare goalReached. its used to print out a message when goal is reached */
-bool GoalReached = false;
+bool goalReached = false;
 
 int main(int argc, char** argv){
 
@@ -35,21 +35,21 @@ int main(int argc, char** argv){
 	
 /* Sends the choosen coordinates to the function 'DriveToGoal' */
     do{
-         choice = choose();
+        choice = choose();
         if (choice == '0'){
-            GoalReached = DriveToGoal(xB228, yB228);
+            goalReached = moveToGoal(xB228, yB228);
         }
         else if (choice == '1'){
-            GoalReached = DriveToGoal(xPrinterRum, yPrinterRum);
+            goalReached = moveToGoal(xPrinterRum, yPrinterRum);
         }
         else if (choice == '2'){
-            GoalReached = DriveToGoal(xRum, yRum);
+            goalReached = moveToGoal(xRum, yRum);
         }
         else if (choice == '3'){
-            GoalReached = DriveToGoal(xRum1, yRum1);
+            goalReached = moveToGoal(xRum1, yRum1);
         }
         if (choice != 'q'){
-            if (GoalReached){
+            if (goalReached){
                 ROS_INFO("The Distination has been reached");
                 ros::spinOnce();
             }
@@ -62,7 +62,7 @@ int main(int argc, char** argv){
     return 0;
 }
 
-bool DriveToGoal(double xGoal, double yGoal){
+bool moveToGoal(double xGoal, double yGoal){
 /* Setting up the publsher - 'move_base' server through a 'SimpleActionClient' */
     actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> ac("move_base", true);
 
