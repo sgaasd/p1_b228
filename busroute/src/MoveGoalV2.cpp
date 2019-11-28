@@ -4,6 +4,7 @@
 
 /* Declaration of function, so they can be called in main */
 bool DriveToGoal(double xGoal, double yGoal);
+char choose();
 
 /* Coordinates of locations on the map, whare the robot shall drive between*/
 double xB228 = 1.181052;
@@ -31,19 +32,10 @@ int main(int argc, char** argv){
 
 /* User input to where the robot shall move to */
     char choice = 'q';
-	std::cout<<"|-------------------------------|"<<std::endl;
-	std::cout<<"|PRESSE A NUMBER EQUAL TO THE LOCATION OF THE DISTINATON - OR q TO EXIT:"<<std::endl;
-	std::cout<<"|'0': B228 "<<std::endl;
-	std::cout<<"|'1': Printer room "<<std::endl;
-	std::cout<<"|'2': rum "<<std::endl;
-	std::cout<<"|'3': rum1 "<<std::endl;
-	std::cout<<"|'q': Quit "<<std::endl;
-	std::cout<<"|-------------------------------|"<<std::endl;
-	std::cout<<"|DISTINATION ? (END BY PRESSING 'ENTER' ";
-	std::cin>>choice;
-
+	
 /* Sends the choosen coordinates to the function 'DriveToGoal' */
     do{
+         choice = choose();
         if (choice == '0'){
             GoalReached = DriveToGoal(xB228, yB228);
         }
@@ -109,5 +101,19 @@ bool DriveToGoal(double xGoal, double yGoal){
     }
 }
 
+char choose(){
+    char choice='q';
+	std::cout<<"|-------------------------------|"<<std::endl;
+	std::cout<<"|PRESS A NUMBER EQUAL TO THE LOCATION OF THE DISTINATION - OR 'q' TO EXIT:"<<std::endl;
+	std::cout<<"|'0': B228 "<<std::endl;
+	std::cout<<"|'1': Printer rum "<<std::endl;
+    std::cout<<"|'2': RUM "<<std::endl;
+	std::cout<<"|'3': RUM1 "<<std::endl;
+	std::cout<<"|'q': Quit "<<std::endl;
+	std::cout<<"|-------------------------------|"<<std::endl;
+	std::cout<<"|DISTINATION? (END BY PRESSING 'ENTER')";
+	std::cin>>choice;
 
+	return choice;
+}
 
