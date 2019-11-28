@@ -10,6 +10,7 @@ geometry_msgs
 move_base_msgs 
 actionlib
 kobuki_msgs
+nav_msgs
 )
 
 ## System dependencies are found with CMake's conventions
