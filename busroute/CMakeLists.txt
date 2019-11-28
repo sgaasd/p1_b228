@@ -11,6 +11,7 @@ move_base_msgs
 actionlib
 kobuki_msgs
 nav_msgs
+actionlib
 )
 
 ## System dependencies are found with CMake's conventions
@@ -140,6 +141,7 @@ add_executable(WheelDrop_node src/WheelDrop.cpp)
 add_executable(Cliff_node src/Cliff.cpp)
 add_executable(MoveGoal_node src/MoveGoal.cpp)
 add_executable(CostmapUpdate_node src/CostmapUpdate.cpp)
+add_executable(MoveGoalV2_node src/MoveGoalV2.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
@@ -188,6 +190,10 @@ target_link_libraries(MoveGoal_node
 )
 
 target_link_libraries(CostmapUpdate_node
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(MoveGoalV2_node
   ${catkin_LIBRARIES}
 )
 #############
