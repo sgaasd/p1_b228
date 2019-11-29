@@ -2,6 +2,7 @@
 #include <move_base_msgs/MoveBaseAction.h>
 #include <actionlib/client/simple_action_client.h>
 
+
 /* Declaration of function, so they can be called in main */
 bool moveToGoal(double xGoal, double yGoal);
 char choose();
@@ -42,34 +43,6 @@ int main(int argc, char** argv){
 /* Sends the choosen coordinates to the function 'DriveToGoal' */
     do{
         choice = choose();
-
-       /* if (choice == '0'){
-            goalReached = moveToGoal(xB228, yB228);
-        }
-        else if (choice == '1'){
-            goalReached = moveToGoal(xPrinterRoom, yPrinterRoom);
-        }
-        else if (choice == '2'){
-            goalReached = moveToGoal(xInfrontPrinterRoom, yInfrontPrinterRoom);
-        }
-        else if (choice == '3'){
-            goalReached = moveToGoal(xTechnicRoom, yTechnicRoom);
-        }
-        else if (choice == '4'){
-            goalReached = moveToGoal(xEndOfHall, yEndOFHall);
-        }
-        else if (choice == '5'){
-            goalReached = moveToGoal(xCornerDoor, yCornerDoor);
-        }
-        if (choice != 'q'){
-            if (goalReached){
-               // ROS_INFO("The Distination has been reached");
-                ros::spinOnce();
-            }
-            else{
-                ROS_INFO("The distination has NOT been reached");
-            } 
-        } */
 
         switch (choice)
         {
@@ -136,7 +109,7 @@ bool moveToGoal(double xGoal, double yGoal){
     }
     else
     {
-        ROS_INFO("The distination cannot be reached");
+        ROS_ERROR("The distination cannot be reached");
         return false;
     }
 }
