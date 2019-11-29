@@ -28,6 +28,9 @@ class Safety_CallBack {
             wd=wheel_state;
             while (wd == 1){
                 cmd_vel_pub.publish(SafetyMsg(0.0, 0.0));
+                if (wd=false){ 
+                    break;
+                }
             }
         }       
         
