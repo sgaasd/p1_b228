@@ -48,21 +48,27 @@ int main(int argc, char** argv){
         {
         case '0':
             goalReached = moveToGoal(xB228, yB228);
+            ROS_INFO("Moving to B228");
             break;
         case '1':
             goalReached = moveToGoal(xPrinterRoom, yPrinterRoom);
+            ROS_INFO("Moving to Printer Room");
             break;
         case '2':
             goalReached = moveToGoal(xInfrontPrinterRoom, yInfrontPrinterRoom);
+            ROS_INFO("Moving to In fromt of printer room");
             break;
         case '3':
             goalReached = moveToGoal(xTechnicRoom, yTechnicRoom);
+            ROS_INFO("Moving to Technic room");
             break;
         case '4':
             goalReached = moveToGoal(xEndOfHall, yEndOFHall);
+            ROS_INFO("Moving to End of hall");
             break;
         case '5':
             goalReached = moveToGoal(xCornerDoor, yCornerDoor);
+            ROS_INFO("Moving to Corner Door");
             break;
         
         default:
@@ -116,7 +122,7 @@ bool moveToGoal(double xGoal, double yGoal){
 
 char choose(){
     char choice='q';
-	std::cout<<"|-------------------------------|"<<std::endl;
+	std::cout<<"|------------------------------------------------------------------------|"<<std::endl;
 	std::cout<<"|PRESS A NUMBER EQUAL TO THE LOCATION OF THE DISTINATION - OR 'q' TO EXIT:"<<std::endl;
 	std::cout<<"|'0': B228 "<<std::endl;
 	std::cout<<"|'1': Printer room "<<std::endl;
@@ -125,7 +131,7 @@ char choose(){
     std::cout<<"|'4': End Of Hall "<<std::endl;
 	std::cout<<"|'5': Corner Door "<<std::endl;
 	std::cout<<"|'q': Quit "<<std::endl;
-	std::cout<<"|-------------------------------|"<<std::endl;
+	std::cout<<"|------------------------------------------------------------------------|"<<std::endl;
 	std::cout<<"|DISTINATION? (END BY PRESSING 'ENTER')";
 	std::cin>>choice;
 
