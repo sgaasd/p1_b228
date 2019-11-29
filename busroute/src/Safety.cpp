@@ -17,7 +17,7 @@ geometry_msgs::Twist SafetyMsg(float x, float z){
     return cmd_vel_message;
 }
 
-bool wd=false;
+bool wd=true;
 
 class Safety_CallBack {
     public: 
@@ -25,12 +25,29 @@ class Safety_CallBack {
         void WheelDrop_callBack(const kobuki_msgs::WheelDropEvent::ConstPtr& msg){
             bool wheels = msg->wheel;
             bool wheel_state = msg->state;
-            while (wheel_state == 1){
+            bool wds = wheel_state;
+
+            
+            
+
+          /*  if (wheel_state == 1)
+            {
                 cmd_vel_pub.publish(SafetyMsg(0.0, 0.0));
-                if (wheel_state=0){ 
+            }
+            if (wheel_state == 0)
+            {
+                ROS_INFO("Hjulene er sat");
+            }*/
+                
+            
+            
+            /*while (wds == 1){
+                cmd_vel_pub.publish(SafetyMsg(0.0, 0.0));
+                if (wheel_state==0){ 
+                    wds = 0;
                     break;
                 }
-            }
+            }*/
         }       
         
         /*ros::Rate loop_rate(21);
