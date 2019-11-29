@@ -25,10 +25,9 @@ class Safety_CallBack {
         void WheelDrop_callBack(const kobuki_msgs::WheelDropEvent::ConstPtr& msg){
             bool wheels = msg->wheel;
             bool wheel_state = msg->state;
-            wd=wheel_state;
-            while (wd == 1){
+            while (wheel_state == 1){
                 cmd_vel_pub.publish(SafetyMsg(0.0, 0.0));
-                if (wd=false){ 
+                if (wheel_state=0){ 
                     break;
                 }
             }
