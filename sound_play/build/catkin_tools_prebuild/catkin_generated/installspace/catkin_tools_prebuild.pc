@@ -1,0 +1,8 @@
+prefix=/home/ros/Desktop/audio_common-master/sound_play/install
+
+Name: catkin_tools_prebuild
+Description: Description of catkin_tools_prebuild
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/ros/Desktop/audio_common-master/sound_play/install/lib 
+Requires: 
