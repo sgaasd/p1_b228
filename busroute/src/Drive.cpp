@@ -58,7 +58,8 @@ int main(int argc, char *argv[])
     ros::init(argc, argv, "Drive");
 
     std::cout << "Hvor langt skal den køre?" << std::endl;
-    std::cin >> dist;
+    //std::cin >> dist;
+    dist=10;
 
     ros::NodeHandle n;
 

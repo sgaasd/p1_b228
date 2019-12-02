@@ -17,7 +17,7 @@ geometry_msgs::Twist SafetyMsg(float x, float z){
     return cmd_vel_message;
 }
 
-bool wd=true;
+bool wd=false;
 
 class Safety_CallBack {
     public: 
@@ -25,54 +25,14 @@ class Safety_CallBack {
         void WheelDrop_callBack(const kobuki_msgs::WheelDropEvent::ConstPtr& msg){
             bool wheels = msg->wheel;
             bool wheel_state = msg->state;
-            bool wds = wheel_state;
-
-            
-
-
-          /*  if (wheel_state == 1)
-            {
-                cmd_vel_pub.publish(SafetyMsg(0.0, 0.0));
-            }
-            if (wheel_state == 0)
-            {
-                ROS_INFO("Hjulene er sat");
-            }*/
-                
-            
-            
-            /*while (wds == 1){
-                cmd_vel_pub.publish(SafetyMsg(0.0, 0.0));
-                if (wheel_state==0){ 
-                    wds = 0;
-                    break;
+            bool wd = wheel_state;
+   
+            while (wd == true){
+                cmd_vel_pub.publish(SafetyMsg(0.0, 0.0));   
+                ROS_FATAL("ERROR");
+                exit(1);
                 }
-            }*/
-        }       
-        
-        /*ros::Rate loop_rate(21);
-        if (wheel_state == 1) {
-        //The robot should make different turns depending on which bumper is pressed 
-            switch (wheels){
-                //If the bumper on the left side is pressed the robot will turn right
-                case 0:
-                    for(int i=0; i<=42; i++){ 
-                        cmd_vel_pub.publish(SafetyMsg(0.0, 0.0));
-                        loop_rate.sleep();
-                    }
-                break;
-                //If the bumper on the middle is pressed the bumper will turn left 
-                case 1:
-                    for(int i=0; i<=42; i++){ 
-                        cmd_vel_pub.publish(SafetyMsg(0.0, 0.0));
-                        loop_rate.sleep();
-                    }
-                break;
-                //If the bumper on the right side is pressed the bumper will turn left 
-            }
-        }*/
-    
-
+            }       
 
         void CliffCallback(const kobuki_msgs::CliffEvent::ConstPtr& msg){
         geometry_msgs::Twist cmd_vel_message;
