@@ -102,6 +102,7 @@ int main(int argc, char** argv){
          }
       }
     }while (choice != 'q');*/
+    ros::spin();
     return 0;
 }
 
