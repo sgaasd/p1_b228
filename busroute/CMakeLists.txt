@@ -147,6 +147,7 @@ add_executable(MoveGoalV2_node src/MoveGoalV2.cpp)
 add_executable(Safety_node src/Safety.cpp)
 add_executable(Buttons_node src/Buttons.cpp)
 add_executable(Lights_node src/Lights.cpp)
+add_executable(test_goal_node src/test_goal.cpp)
 #add_executable(grid_layer_node src/grid_layer.cpp)
 
 ## Add cmake target dependencies of the executable
@@ -213,6 +214,10 @@ target_link_libraries(Buttons_node
 )
 
 target_link_libraries(Lights_node
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(test_goal_node
   ${catkin_LIBRARIES}
 )
 

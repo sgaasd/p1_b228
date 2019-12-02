@@ -84,7 +84,7 @@ int main(int argc, char** argv){
          if (goalReached){
             ROS_INFO("Congratulations!");
             ros::spinOnce();
-            sc.playWave(path_to_sounds+"ship_bell.wav");
+            sc.playWave(path_to_sounds+"toaster_oven_ding.wav");
          }else{
             ROS_INFO("Hard Luck!");
             sc.playWave(path_to_sounds+"short_buzzer.wav");
