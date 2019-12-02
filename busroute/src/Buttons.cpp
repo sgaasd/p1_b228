@@ -1,24 +1,25 @@
-#include <ros/ros.h>
+/*#include <ros/ros.h>
 #include <kobuki_msgs/ButtonEvent.h>
 #include <iostream>
 using namespace std;
-
+/*
 void ButtonCallback(const kobuki_msgs::ButtonEvent::ConstPtr& msg){
-    bool pressed = msg->state
+    bool pressed = msg->state;
     //Button0
     //Button1
     //Button2
-    std::cout << state << std::endl;
+    std::cout << 
 }
+*/
 
 int main(int argc, char *argv[])
 {
-    ros::init(argc, argv, "Buttons");
-    ros::NodeHandle n;
-    ros::Subscriber Button_sub = n.subscribe("mobile_base/events/button", 10, ButtonCallback);
+    //ros::init(argc, argv, "Buttons");
+    //ros::NodeHandle n;
+    //ros::Subscriber Button_sub = n.subscribe("mobile_base/events/button", 10, ButtonCallback);
 
 
-    ros::spin();
+    //ros::spin();
     return 0;
 }
 
