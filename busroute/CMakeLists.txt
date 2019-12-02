@@ -117,8 +117,8 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-include_directories(${catkin_INCLUDE_DIRS} include)
-add_library(grid_layer src/grid_layer.cpp)
+include_directories(${catkin_INCLUDE_DIRS} #include)
+#add_library(grid_layer src/grid_layer.cpp)
 
 ## Declare a C++ library
 # add_library(busroute
@@ -145,7 +145,7 @@ add_executable(MoveGoal_node src/MoveGoal.cpp)
 add_executable(CostmapUpdate_node src/CostmapUpdate.cpp)
 add_executable(MoveGoalV2_node src/MoveGoalV2.cpp)
 add_executable(Safety_node src/Safety.cpp)
-add_executable(grid_layer_node src/grid_layer.cpp)
+#add_executable(grid_layer_node src/grid_layer.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
@@ -205,9 +205,9 @@ target_link_libraries(Safety_node
   ${catkin_LIBRARIES}
 )
 
-target_link_libraries(grid_layer_node
-  ${catkin_LIBRARIES}
-)
+##target_link_libraries(grid_layer_node
+#  ${catkin_LIBRARIES}
+#)
 #############
 ## Install ##
 #############
