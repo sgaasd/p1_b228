@@ -1,71 +1,39 @@
-/*#include <ros/ros.h>
+#include <ros/ros.h>
 #include <kobuki_msgs/ButtonEvent.h>
 #include <iostream>
 using namespace std;
-/*
-void ButtonCallback(const kobuki_msgs::ButtonEvent::ConstPtr& msg){
-    bool pressed = msg->state;
-    //Button0
-    //Button1
-    //Button2
-    std::cout << 
+
+void ButtonCallback(const kobuki_msgs::ButtonEvent::ConstPtr& msg){ 
+    bool B0Pressed = msg->state;
+    bool B1Pressed = msg->state;
+    bool B2Pressed = msg->state;
+    int B0 = msg->button;
+    int B1 = msg->button;
+    int B2 = msg->button;
+    
+    if (B0Pressed == true && B0 == 0){
+        std::cout << "B0 = " << B0Pressed << std::endl;
+
+    }
+    else if (B1Pressed == true && B1 == 1){
+        std::cout << "B1 = " << B1Pressed << std::endl;
+    }
+    else if (B2Pressed == true && B2 == 2){
+        std::cout << "B2 = " << B2Pressed << std::endl;
+    }
+    else {
+        std::cout << "Du har ikke trykket på en knap" << std::endl;
+    }
 }
-*/
+
 
 int main(int argc, char *argv[])
 {
-    //ros::init(argc, argv, "Buttons");
-    //ros::NodeHandle n;
-    //ros::Subscriber Button_sub = n.subscribe("mobile_base/events/button", 10, ButtonCallback);
+    ros::init(argc, argv, "Buttons");
+    ros::NodeHandle n;
+    ros::Subscriber Button_sub = n.subscribe("mobile_base/events/button", 10, ButtonCallback);
 
 
-    //ros::spin();
+    ros::spin();
     return 0;
 }
-
-
-/*
-
-        //The function BumperCallBack tells if the bumper is pressed and which side 
-        void BumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg){
-        geometry_msgs::Twist cmd_vel_message;
-        bool hit = msg->state;
-        int bump = msg->bumper;
-        ros::Rate loop_rate(21);
-        if(hit == 1 && wd==false) {
-            //The robot should make different turns depending on which bumper is pressed 
-            switch (bump){
-                //If the bumper on the left side is pressed the robot will turn right
-                case 0:
-                    for(int i=0; i<=42; i++){ 
-                        cmd_vel_pub.publish(SafetyMsg(-0.2, 0.0));
-                        loop_rate.sleep();
-                    }
-                    for(int i=0; i<=42; i++){ 
-                        cmd_vel_pub.publish(SafetyMsg(0.0, -0.3));
-                        loop_rate.sleep();
-                    }
-                    break;
-                //If the bumper on the middle is pressed the robot will turn left 
-                case 1:
-                    for(int i=0; i<=42; i++){ 
-                        cmd_vel_pub.publish(SafetyMsg(-0.2, 0.0));
-                        loop_rate.sleep();
-                    }
-                    for(int i=0; i<=42; i++){
-                        cmd_vel_pub.publish(SafetyMsg(0.0, 0.4));
-                        loop_rate.sleep();
-                    }
-                    break;
-                //If the bumper on the right side is pressed the robot will turn left 
-                case 2:
-                    for(int i=0; i<=42; i++){ 
-                        cmd_vel_pub.publish(SafetyMsg(-0.2, 0.0));
-                        loop_rate.sleep();
-                    }
-                    for(int i=0; i<=42; i++){
-                        cmd_vel_pub.publish(SafetyMsg(0.0, 0.4));
-                        loop_rate.sleep();
-                    }
-                    break;
-*/

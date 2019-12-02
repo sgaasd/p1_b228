@@ -1,8 +1,10 @@
 #include <ros/ros.h>
 #include <move_base_msgs/MoveBaseAction.h>
 #include <actionlib/client/simple_action_client.h>
-//sound_play#include <SoundRequestAction.h>
+//#include <kobuki_msgs/Sound.h>
+#include <sound_play/sound_play.h>
 
+std::string path_to_sounds;
 
 /* Declaration of function, so they can be called in main */
 bool moveToGoal(double xGoal, double yGoal);
@@ -36,7 +38,9 @@ int main(int argc, char** argv){
 /* Initelizing ros */    
     ros::init(argc, argv, "MoveGoalV2_node");
     ros::NodeHandle n;
+    sound_play::SoundClient sc;
     ros::spinOnce();
+    path_to_sounds = "/home/ros/p1ws/src/p1_b228/busroute/sounds/";
 
 /* User input to where the robot shall move to */
     char choice = 'q';
@@ -76,6 +80,16 @@ int main(int argc, char** argv){
             ROS_ERROR("Input a number between 0-5");
             break;
         }
+        if (choice!='q'){
+         if (goalReached){
+            ROS_INFO("Congratulations!");
+            ros::spinOnce();
+            sc.playWave(path_to_sounds+"ship_bell.wav");
+         }else{
+            ROS_INFO("Hard Luck!");
+            sc.playWave(path_to_sounds+"short_buzzer.wav");
+         }
+      }
     }while (choice != 'q');
     return 0;
 }
