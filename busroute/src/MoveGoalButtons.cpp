@@ -1,4 +1,4 @@
-/*#include <ros/ros.h>
+#include <ros/ros.h>
 #include <move_base_msgs/MoveBaseAction.h>
 #include <actionlib/client/simple_action_client.h>
 //#include <kobuki_msgs/Sound.h>
@@ -11,11 +11,11 @@
 std::string path_to_sounds;
 
 /* Declaration of function, so they can be called in main */
-//bool moveToGoal(double xGoal, double yGoal);
-//char choose();
+bool moveToGoal(double xGoal, double yGoal);
+char choose();
 
 /* Coordinates of locations on the map, whare the robot shall drive between*/
-/*double xB228 = 1.181052;
+double xB228 = 1.181052;
 double yB228 = 0.033761;
 
 double xPrinterRoom = 2.200309;
@@ -35,15 +35,15 @@ double yCornerDoor = -44.9245;
 
 
 /* Declare goalReached. its used to print out a message when goal is reached */
-//bool goalReached = false;
+bool goalReached = false;
 
 
-//void ButtonCallback(const kobuki_msgs::ButtonEvent::ConstPtr& msg)
+void ButtonCallback(const kobuki_msgs::ButtonEvent::ConstPtr& msg);
 
 int main(int argc, char** argv){
 
 /* Initelizing ros */    
-  /*  ros::init(argc, argv, "MoveGoalV2_node");
+    ros::init(argc, argv, "MoveGoalV2_node");
     ros::NodeHandle n;
     sound_play::SoundClient sc;
     ros::spinOnce();
@@ -54,13 +54,13 @@ int main(int argc, char** argv){
 
 
 /* User input to where the robot shall move to */
-    //char choice = 'q';
+    char choice = 'q';
 	
 /* Sends the choosen coordinates to the function 'DriveToGoal' */
-    //do{
-      //  choice = choose();
+    /*do{
+        choice = choose();
 
-        /*switch (choice)
+        switch (choice)
         {
         case '0':
             goalReached = moveToGoal(xB228, yB228);
@@ -104,19 +104,25 @@ int main(int argc, char** argv){
     }while (choice != 'q');*/
     return 0;
 }
-/*
+
 void ButtonCallback(const kobuki_msgs::ButtonEvent::ConstPtr& msg){ 
     bool Pressed = msg->state;
     int Button = msg->button;
     
     if (Pressed == true && Button == 0){
-        std::cin >> '0';
+        std::cin >> Button;
+        goalReached = moveToGoal(xB228, yB228);
+        ROS_INFO("Moving to B228");
     }
     else if (Pressed == true && Button == 1){
-        std::cin >> '1';
+        std::cin >> Button;
+        goalReached = moveToGoal(xPrinterRoom, yPrinterRoom);
+        ROS_INFO("Moving to Printer Room");
     }
     else if (Pressed == true && Button == 2){
-        std::cin >> '2';
+        std::cin >> Button;
+        goalReached = moveToGoal(xPrinterRoom, yPrinterRoom);
+        ROS_INFO("Moving to Printer Room");
     }    
     else {
         std::cout << "Du har ikke trykket på en knap" << std::endl;
@@ -127,21 +133,21 @@ void ButtonCallback(const kobuki_msgs::ButtonEvent::ConstPtr& msg){
 
 bool moveToGoal(double xGoal, double yGoal){
 /* Setting up the publsher - 'move_base' server through a 'SimpleActionClient' */
-  //  actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> ac("move_base", true);
+    actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> ac("move_base", true);
 
 /* Setting a timer, so the 'action server' can come up , and it will wait for mak. 5 sec.*/
-    /*while (!ac.waitForServer(ros::Duration(5.0))){
+    while (!ac.waitForServer(ros::Duration(5.0))){
         ROS_INFO("Program waitin for the 'move_base action server' to post");
     }
 
     move_base_msgs::MoveBaseGoal goal;
 
 /* Declaring the coordiantes used in this node to reference to the absolute coordinates nemed in the "map" file */
-    /*goal.target_pose.header.frame_id = "map";
+    goal.target_pose.header.frame_id = "map";
     goal.target_pose.header.stamp = ros::Time::now();
 
 /* Moving the robot towards its distination point */
-    /*goal.target_pose.pose.position.x = xGoal;
+    goal.target_pose.pose.position.x = xGoal;
     goal.target_pose.pose.position.y = yGoal;
     goal.target_pose.pose.position.z = 00.00;
 
@@ -165,7 +171,7 @@ bool moveToGoal(double xGoal, double yGoal){
         return false;
     }
 }
-
+/*
 char choose(){
     char choice='q';
 	std::cout<<"|------------------------------------------------------------------------|"<<std::endl;
@@ -183,5 +189,4 @@ char choose(){
 
 	return choice;
 }
-
 */
