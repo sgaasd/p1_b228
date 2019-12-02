@@ -13,6 +13,7 @@ kobuki_msgs
 nav_msgs
 actionlib
 sound_play
+#message_generation
 )
 
 ## System dependencies are found with CMake's conventions
@@ -49,11 +50,10 @@ sound_play
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
+add_message_files(
+  FILES
+  Light.msg
+)
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -70,10 +70,10 @@ sound_play
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   std_msgs  # Or other packages containing msgs
-# )
+#generate_messages(
+#  DEPENDENCIES
+#  std_msgs
+#)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -107,7 +107,7 @@ sound_play
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES busroute
-#  CATKIN_DEPENDS other_catkin_pkg
+#  CATKIN_DEPENDS message_runtime
 #  DEPENDS system_lib
 )
 
@@ -146,6 +146,7 @@ add_executable(CostmapUpdate_node src/CostmapUpdate.cpp)
 add_executable(MoveGoalV2_node src/MoveGoalV2.cpp)
 add_executable(Safety_node src/Safety.cpp)
 add_executable(Buttons_node src/Buttons.cpp)
+add_executable(Lights_node src/Lights.cpp)
 #add_executable(grid_layer_node src/grid_layer.cpp)
 
 ## Add cmake target dependencies of the executable
@@ -208,6 +209,10 @@ target_link_libraries(Safety_node
 
 
 target_link_libraries(Buttons_node
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(Lights_node
   ${catkin_LIBRARIES}
 )
 

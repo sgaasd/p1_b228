@@ -1,7 +1,8 @@
-image: /home/ros/p1ws/src/p1_b228/busroute/maps/gang.pgm
+image: /home/ros/p1ws/src/p1_b228/busroute/maps/gang_syd.pgm
 resolution: 0.050000
 origin: [-13.85, -48.495, 0]
 negate: 0
-occupied_thresh: 0.65
-free_thresh: 0.196
-
+occupied_thresh: 0.93
+free_thresh: 0.05
+mode: scale
+trinary_costmap: false
