@@ -12,6 +12,7 @@ actionlib
 kobuki_msgs
 nav_msgs
 actionlib
+sound_play
 )
 
 ## System dependencies are found with CMake's conventions
