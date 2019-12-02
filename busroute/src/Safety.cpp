@@ -16,28 +16,33 @@ geometry_msgs::Twist SafetyMsg(float x, float z){
     cout << cmd_vel_message << endl;
     return cmd_vel_message;
 }
-
+//wd shall be true as default
 bool wd=false;
 
+//A class called safety is created that contains the different functions 
 class Safety_CallBack {
     public: 
 
+        //The function with for the Wheel Drop. With pointers to Wheel and State 
         void WheelDrop_callBack(const kobuki_msgs::WheelDropEvent::ConstPtr& msg){
             bool wheels = msg->wheel;
             bool wheel_state = msg->state;
             bool wd = wheel_state;
    
-            while (wd == true){
+            //iF the wheel drop is activated the the robot will stop and exit the program. 
+            if (wd == true){
                 cmd_vel_pub.publish(SafetyMsg(0.0, 0.0));   
                 ROS_FATAL("ERROR");
                 exit(1);
                 }
             }       
 
+        //The functino for the Cliff is created 
         void CliffCallback(const kobuki_msgs::CliffEvent::ConstPtr& msg){
         geometry_msgs::Twist cmd_vel_message;
         bool cliffs = msg->state;
         int sensors = msg->sensor;
+        //The robot has 2 second for each state 
         ros::Rate loop_rate(21);
             if (cliffs == 1 && wd == false) {
                 //The robot should make different turns depending on which sensor is activated 
