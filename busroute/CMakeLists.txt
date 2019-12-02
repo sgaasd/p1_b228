@@ -117,7 +117,7 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-include_directories(${catkin_INCLUDE_DIRS} #include)
+include_directories(${catkin_INCLUDE_DIRS} include)
 #add_library(grid_layer src/grid_layer.cpp)
 
 ## Declare a C++ library
