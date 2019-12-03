@@ -47,36 +47,36 @@ class Safety_CallBack {
             if (cliffs == 1 && wd == false) {
                 //The robot should make different turns depending on which sensor is activated 
                 switch (sensors){
-                    //If the sensor on the left side is pressed the robot will turn right
+                    //If the sensor on the left side is pressed the robot will turn right 90 degrees
                     case 0:
                     for(int i=0; i<=42; i++){ 
                         cmd_vel_pub.publish(SafetyMsg(-0.2, 0.0));
                         loop_rate.sleep();
                     }
                     for(int i=0; i<=42; i++){ 
-                        cmd_vel_pub.publish(SafetyMsg(0.0, -0.3));
+                        cmd_vel_pub.publish(SafetyMsg(0.0, -(1.5707963268 / 2)));
                         loop_rate.sleep();
                     }
                     break;
-                    //If the sensor on the middle is activated the robot will turn left 
+                    //If the sensor on the middle is activated the robot will turn left 90 degrees
                     case 1:
                     for(int i=0; i<=42; i++){ 
                         cmd_vel_pub.publish(SafetyMsg(-0.2, 0.0));
                         loop_rate.sleep();
                     }
                     for(int i=0; i<=42; i++){
-                        cmd_vel_pub.publish(SafetyMsg(0.0, 0.4));
+                        cmd_vel_pub.publish(SafetyMsg(0.0, (1.5707963268 / 2)));
                         loop_rate.sleep();
                     }
                     break;
-                    //If the sensor on the right side is pressed the robot will turn left 
+                    //If the sensor on the right side is pressed the robot will turn left 90 degrees
                      case 2:
                     for(int i=0; i<=42; i++){ 
                         cmd_vel_pub.publish(SafetyMsg(-0.2, 0.0));
                         loop_rate.sleep();
                     }
                     for(int i=0; i<=42; i++){
-                        cmd_vel_pub.publish(SafetyMsg(0.0, 0.4));
+                        cmd_vel_pub.publish(SafetyMsg(0.0, (1.5707963268 / 2)));
                         loop_rate.sleep();
                     }
                     break;
@@ -93,36 +93,36 @@ class Safety_CallBack {
         if(hit == 1 && wd==false) {
             //The robot should make different turns depending on which bumper is pressed 
             switch (bump){
-                //If the bumper on the left side is pressed the robot will turn right
+                //If the bumper on the left side is pressed the robot will turn right 90 degrees
                 case 0:
                     for(int i=0; i<=42; i++){ 
                         cmd_vel_pub.publish(SafetyMsg(-0.2, 0.0));
                         loop_rate.sleep();
                     }
                     for(int i=0; i<=42; i++){ 
-                        cmd_vel_pub.publish(SafetyMsg(0.0, -0.3));
+                        cmd_vel_pub.publish(SafetyMsg(0.0, -(1.5707963268 / 2)));
                         loop_rate.sleep();
                     }
                     break;
-                //If the bumper on the middle is pressed the robot will turn left 
+                //If the bumper on the middle is pressed the robot will turn left 90 degrees
                 case 1:
                     for(int i=0; i<=42; i++){ 
                         cmd_vel_pub.publish(SafetyMsg(-0.2, 0.0));
                         loop_rate.sleep();
                     }
                     for(int i=0; i<=42; i++){
-                        cmd_vel_pub.publish(SafetyMsg(0.0, 0.4));
+                        cmd_vel_pub.publish(SafetyMsg(0.0, (1.5707963268 / 2)));
                         loop_rate.sleep();
                     }
                     break;
-                //If the bumper on the right side is pressed the robot will turn left 
+                //If the bumper on the right side is pressed the robot will turn left 90 degrees
                 case 2:
                     for(int i=0; i<=42; i++){ 
                         cmd_vel_pub.publish(SafetyMsg(-0.2, 0.0));
                         loop_rate.sleep();
                     }
                     for(int i=0; i<=42; i++){
-                        cmd_vel_pub.publish(SafetyMsg(0.0, 0.4));
+                        cmd_vel_pub.publish(SafetyMsg(0.0, (1.5707963268 / 2)));
                         loop_rate.sleep();
                     }
                     break;
