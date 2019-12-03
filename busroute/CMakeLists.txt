@@ -50,10 +50,10 @@ sound_play
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-add_message_files(
-  FILES
-  Light.msg
-)
+#add_message_files(
+#  FILES
+#  Light.msg
+#)
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -146,7 +146,7 @@ add_executable(CostmapUpdate_node src/CostmapUpdate.cpp)
 add_executable(MoveGoalV2_node src/MoveGoalV2.cpp)
 add_executable(Safety_node src/Safety.cpp)
 add_executable(Buttons_node src/Buttons.cpp)
-add_executable(Lights_node src/Lights.cpp)
+#add_executable(Lights_node src/Lights.cpp)
 add_executable(test_goal_node src/test_goal.cpp)
 #add_executable(grid_layer_node src/grid_layer.cpp)
 add_executable(MoveGoalButtons_node src/MoveGoalButtons.cpp)
@@ -215,9 +215,9 @@ target_link_libraries(Buttons_node
   ${catkin_LIBRARIES}
 )
 
-target_link_libraries(Lights_node
-  ${catkin_LIBRARIES}
-)
+#target_link_libraries(Lights_node
+#  ${catkin_LIBRARIES}
+#)
 
 target_link_libraries(test_goal_node
   ${catkin_LIBRARIES}
