@@ -102,31 +102,6 @@ void drive(const nav_msgs::Odometry::ConstPtr& msg){
 
         angle1 = (((grader * M_PI) / 180) / 2);
         angle2 = ((grader * M_PI) / 180);
-<<<<<<< HEAD
-        
-<<<<<<< HEAD
-            for (int i=0; i=2; i++){
-                cmd_vel_message.angular.z = 0.38;
-                cmd_vel_message.linear.x = 0.00;
-                cmd_vel_pub.publish(cmd_vel_message);
-                std::cout << "Angle in radians " << PosZ << std::endl;
-                }
-                cmd_vel_message.angular.z = 0.0;
-                cmd_vel_pub.publish(cmd_vel_message);
-
-            if (driven1 < driven2){       
-=======
-            if(PosZ < angle1){
-            cmd_vel_message.angular.z = 0.38;
-            cmd_vel_message.linear.x = 0.00;
-            cmd_vel_pub.publish(cmd_vel_message);
-            std::cout << "Angle in radians posZ " << PosZ << std::endl;
-            std::cout << "Angle in radians angle2 " << angle2 << std::endl;
-            std::cout << "Angle in radians angle1 " << angle1 << std::endl;
-            }
-            if(PosZ > angle2){
-        CorSet = false;
-=======
 
 // if statement hvor yaw bliver større og større indtil den rammer angle 2
         if(yaw < angle2){
@@ -140,7 +115,6 @@ void drive(const nav_msgs::Odometry::ConstPtr& msg){
         CorSet1 = false;
         }
         else{
->>>>>>> 4061d02ac4ddffddcda927069c6143d81cd9b1e4
             cmd_vel_message.angular.z = 0.00;
             cmd_vel_message.linear.x = 0.00;
             cmd_vel_pub.publish(cmd_vel_message);
@@ -152,29 +126,3 @@ void drive(const nav_msgs::Odometry::ConstPtr& msg){
                 cmd_vel_pub.publish(cmd_vel_message);
                 std::cout << "driven1 " << driven1 << "driven2 " << driven2 << std::endl;
             }
-<<<<<<< HEAD
-           /* if (driven1 < driven2){       
->>>>>>> db3ae3ada26cbf2be264d2e98d0012095e1c8b92
-            cmd_vel_message.angular.z = 0.0;
-            cmd_vel_message.linear.x = 0.05;
-            cmd_vel_pub.publish(cmd_vel_message);
-            }
-           else {
-                cmd_vel_message.angular.z = 0.0;
-=======
-            else{
-                cmd_vel_message.angular.z = 0.00;
->>>>>>> 4061d02ac4ddffddcda927069c6143d81cd9b1e4
-                cmd_vel_message.linear.x = 0.00;
-                cmd_vel_pub.publish(cmd_vel_message);
-                CorSet = true;
-                CorSet1 = true;
-                std::exit;
-            }
-                
-                
-        }
-          
-    }    
-    
-}

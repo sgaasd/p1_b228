@@ -22,7 +22,7 @@ geometry_msgs::Twist SafetyMsg(float x, float z){
             loop_rate.sleep();
             }
         cout << "I am ready" << endl;
-        
+
         exit(1);
     }   
 

@@ -11,7 +11,7 @@ int main(int argc, char** argv){
 /* Initelizing ros */    
     ros::init(argc, argv, "test_goal_node");
     ros::NodeHandle n;
-    ros::spinOnce();
+    ros::spin();
 
 
 /* User input to where the robot shall move to */
@@ -29,7 +29,7 @@ bool moveToGoal(double xGoal, double yGoal){
 
 
     if (ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED){
-        ROS_INFO("The distination has been reached");
+        ROS_INFO("The distination has been reached --------- test");
         return true;
     }
     else

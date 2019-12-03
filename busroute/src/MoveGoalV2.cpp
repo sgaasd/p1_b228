@@ -1,7 +1,6 @@
 #include <ros/ros.h>
 #include <move_base_msgs/MoveBaseAction.h>
 #include <actionlib/client/simple_action_client.h>
-//#include <kobuki_msgs/Sound.h>
 #include <sound_play/sound_play.h>
 
 std::string path_to_sounds;
