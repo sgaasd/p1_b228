@@ -6,43 +6,32 @@ using namespace std;
 
 ros::Publisher cmd_vel_pub;
 
+geometry_msgs::Twist ButtMsg(float x, float z){
+    geometry_msgs::Twist cmd_vel_message;
+    cmd_vel_message.angular.z = z;
+    cmd_vel_message.linear.x = x;
+    cout << cmd_vel_message << endl;
+    return cmd_vel_message;
+}
+
 void ButtonCallback(const kobuki_msgs::ButtonEvent::ConstPtr& msg){ 
     bool Pressed = msg->state;
     int Button = msg->button;
-    
-    if (Pressed == true && Button == 0){
-        std::cout << "B0 = " << Pressed << std::endl;
-        std::cin >> Button;
-        if (Button == 0){
-            geometry_msgs::Twist cmd_vel_message;
-            cmd_vel_message.angular.z = 0.5;
-            cmd_vel_message.linear.x = 0.5;
-    
-        }
-    }
-    else if (Pressed == true && Button == 1){
-        std::cout << "B1 = " << Pressed << std::endl;
-        std::cin >> Button;
-        if (Button == 1){
-            geometry_msgs::Twist cmd_vel_message;
-            cmd_vel_message.angular.z = 0.0;
-            cmd_vel_message.linear.x = -0.5;    
-        }
-    }
-    else if (Pressed == true && Button == 2){
-        std::cout << "B2 = " << Pressed << std::endl;
-        std::cin >> Button;
-        if (Button == 2){
-            geometry_msgs::Twist cmd_vel_message;
-            cmd_vel_message.angular.z = 0.0;
-            cmd_vel_message.linear.x = 0.5;    
-        }
-    }    
-    else {
-        std::cout << "Du har ikke trykket på en knap" << std::endl;
+
+    if (Pressed=true){
+        switch (Button){
+            case 0:
+                cmd_vel_pub.publish(ButtMsg(0.5, 0.5));
+            break; 
+            case 1:
+                cmd_vel_pub.publish(ButtMsg(0.0, -0.5));
+            break;  
+            case 2: 
+                cmd_vel_pub.publish(ButtMsg(0.0, 0.5));
+            break;
+        } 
     }
 }
-
 
 int main(int argc, char *argv[])
 {
