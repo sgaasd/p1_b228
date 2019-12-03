@@ -17,11 +17,12 @@ geometry_msgs::Twist SafetyMsg(float x, float z){
 //The function with for the Wheel Drop. With pointers to Wheel and State 
     void SpinCallBack(){
         ros::Rate loop_rate(21);
-        for(int i=0; i<=42; i++){ 
-            cmd_vel_pub.publish(SafetyMsg(0.0, 1.0));
+        for(int i=0; i<=84; i++){ 
+            cmd_vel_pub.publish(SafetyMsg(0.0, (6.2831853072 / 4))); //Turns 360 degrees
             loop_rate.sleep();
             }
         cout << "I am ready" << endl;
+        
         exit(1);
     }   
 
