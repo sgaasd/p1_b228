@@ -9,7 +9,7 @@ ros::Publisher cmd_vel_pub;
 void ButtonCallback(const kobuki_msgs::ButtonEvent::ConstPtr& msg){ 
     bool Pressed = msg->state;
     int Button = msg->button;
-    
+
     if (Pressed == true && Button == 0){
         std::cout << "B0 = " << Pressed << std::endl;
         std::cin >> Button;
@@ -41,6 +41,7 @@ void ButtonCallback(const kobuki_msgs::ButtonEvent::ConstPtr& msg){
     else {
         std::cout << "Du har ikke trykket på en knap" << std::endl;
     }
+
 }
 
 

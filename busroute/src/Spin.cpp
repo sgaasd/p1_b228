@@ -19,9 +19,9 @@ geometry_msgs::Twist SafetyMsg(float x, float z){
         ros::Rate loop_rate(21);
         for(int i=0; i<=42; i++){ 
             cmd_vel_pub.publish(SafetyMsg(0.0, 1.0));
-            cout << "I am ready" << endl;
             loop_rate.sleep();
             }
+        cout << "I am ready" << endl;
         exit(1);
     }   
 
