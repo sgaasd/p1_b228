@@ -86,7 +86,7 @@ ROS_INFO("lige før den sender xGoal og yGoal");
         ROS_INFO("Moving towards the distination");
         ac.sendGoal(goal);
         light(1, 'o');
-        light(2, 'o');
+        light(2, 'r');
 
         ac.waitForResult();
 
