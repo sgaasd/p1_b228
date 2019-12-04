@@ -40,7 +40,7 @@ geometry_msgs::Twist SafetyMsg(float z){
 
             /*    ros::Duration four_seconds(4.0);
         ros::Rate loop_rate(21);
-        for(int i=0; i<=84; i++){ 
+        for(int i=0; i<=100; i++){ 
             cmd_vel_pub.publish(SafetyMsg((6.2831853072 / 4))); //Turns 360 degrees
             loop_rate.sleep();
             }*/
