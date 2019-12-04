@@ -29,7 +29,7 @@ int main(int argc, char *argv[]){
     ros::init(argc, argv, "Spin");
     ros::NodeHandle n;
 
-    cmd_vel_pub = n.advertise<geometry_msgs::Twist>("/cmd_vel_mux/input/navi", 1);
+    cmd_vel_pub = n.advertise<geometry_msgs::Twist>("/cmd_vel_mux/input/navi", 1000);
     
     SpinCallBack();
     return 0; 
