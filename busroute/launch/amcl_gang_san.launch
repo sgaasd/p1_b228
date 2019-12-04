@@ -2,7 +2,7 @@
   <include file="$(find turtlebot_bringup)/launch/minimal.launch"/>
   <node name="Spin" pkg="busroute" type="Spin_node"/>
   <node name="Safety" pkg="busroute" type="Safety_node" required="true"/>
- <!-- <node name="Buttons" pkg="busroute" type="Buttons_node" />-->
+  <!--<node name="MoceToGoal_fin" pkg="busroute" type="MoveToGoal_fin_node" />-->
 
 <arg name="node_start_delay" default="30.0"/> 
 
@@ -21,7 +21,7 @@
   </include>
 
   <!-- Map server -->
-  <arg name="map_file" default="/home/ros/p1ws/src/p1_b228/busroute/maps/gang.yaml" />
+  <arg name="map_file" default="/home/ros/git_ws/src/p1_b228/busroute/maps/gang_san.yaml" />
   <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
 
   <!-- AMCL -->
