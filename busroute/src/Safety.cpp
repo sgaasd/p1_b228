@@ -17,7 +17,7 @@ geometry_msgs::Twist SafetyMsg(float x, float z){
     return cmd_vel_message;
 }
 //wd shall be true as default
-bool wd=false;
+bool wheelDrop=false;
 
 //A class called safety is created that contains the different functions 
 class Safety_CallBack {
@@ -27,12 +27,12 @@ class Safety_CallBack {
         void WheelDrop_callBack(const kobuki_msgs::WheelDropEvent::ConstPtr& msg){
             bool wheels = msg->wheel;
             bool wheel_state = msg->state;
-            bool wd = wheel_state;
+            bool wheelDrop = wheel_state;
    
             //iF the wheel drop is activated the the robot will stop and exit the program. 
-            if (wd == true){
+            if (wheelDrop == true){
                 cmd_vel_pub.publish(SafetyMsg(0.0, 0.0));   
-                ROS_FATAL("ERROR");
+                ROS_FATAL("Robot has been lifted - Exiting ROS ");
                 exit(1);
                 }
             }       
@@ -44,7 +44,7 @@ class Safety_CallBack {
         int sensors = msg->sensor;
         //The robot has 2 second for each state 
         ros::Rate loop_rate(21);
-            if (cliffs == 1 && wd == false) {
+            if (cliffs == 1 && wheelDrop == false) {
                 //The robot should make different turns depending on which sensor is activated 
                 switch (sensors){
                     //If the sensor on the left side is pressed the robot will turn right 90 degrees
@@ -54,7 +54,7 @@ class Safety_CallBack {
                         loop_rate.sleep();
                     }
                     for(int i=0; i<=42; i++){ 
-                        cmd_vel_pub.publish(SafetyMsg(0.0, -(1.5707963268 / 2)));
+                        cmd_vel_pub.publish(SafetyMsg(0.0, -(0.75)));
                         loop_rate.sleep();
                     }
                     break;
@@ -65,7 +65,7 @@ class Safety_CallBack {
                         loop_rate.sleep();
                     }
                     for(int i=0; i<=42; i++){
-                        cmd_vel_pub.publish(SafetyMsg(0.0, (1.5707963268 / 2)));
+                        cmd_vel_pub.publish(SafetyMsg(0.0, (0.75)));
                         loop_rate.sleep();
                     }
                     break;
@@ -76,7 +76,7 @@ class Safety_CallBack {
                         loop_rate.sleep();
                     }
                     for(int i=0; i<=42; i++){
-                        cmd_vel_pub.publish(SafetyMsg(0.0, (1.5707963268 / 2)));
+                        cmd_vel_pub.publish(SafetyMsg(0.0, (0.75)));
                         loop_rate.sleep();
                     }
                     break;
@@ -90,7 +90,7 @@ class Safety_CallBack {
         bool hit = msg->state;
         int bump = msg->bumper;
         ros::Rate loop_rate(21);
-        if(hit == 1 && wd==false) {
+        if(hit == 1 && wheelDrop==false) {
             //The robot should make different turns depending on which bumper is pressed 
             switch (bump){
                 //If the bumper on the left side is pressed the robot will turn right 90 degrees
@@ -100,7 +100,7 @@ class Safety_CallBack {
                         loop_rate.sleep();
                     }
                     for(int i=0; i<=42; i++){ 
-                        cmd_vel_pub.publish(SafetyMsg(0.0, -(1.5707963268 / 2)));
+                        cmd_vel_pub.publish(SafetyMsg(0.0, -(0.75)));
                         loop_rate.sleep();
                     }
                     break;
@@ -111,7 +111,7 @@ class Safety_CallBack {
                         loop_rate.sleep();
                     }
                     for(int i=0; i<=42; i++){
-                        cmd_vel_pub.publish(SafetyMsg(0.0, (1.5707963268 / 2)));
+                        cmd_vel_pub.publish(SafetyMsg(0.0, (0.75)));
                         loop_rate.sleep();
                     }
                     break;
@@ -122,7 +122,7 @@ class Safety_CallBack {
                         loop_rate.sleep();
                     }
                     for(int i=0; i<=42; i++){
-                        cmd_vel_pub.publish(SafetyMsg(0.0, (1.5707963268 / 2)));
+                        cmd_vel_pub.publish(SafetyMsg(0.0, (0.75)));
                         loop_rate.sleep();
                     }
                     break;

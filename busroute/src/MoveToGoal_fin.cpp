@@ -30,12 +30,15 @@ void ButtonCallback(const kobuki_msgs::ButtonEvent::ConstPtr& msg){
         switch (Button){
             case 0:
                 moveToGoal(xB228, yB228);
+                ROS_INFO(":");
             break; 
             case 1:
                 moveToGoal(xPrinterRoom, yPrinterRoom);
+                ROS_INFO(":");
             break;  
             case 2: 
                 moveToGoal(xTechnicRoom, yTechnicRoom);
+                ROS_INFO(":");
             break;
         } 
     }
