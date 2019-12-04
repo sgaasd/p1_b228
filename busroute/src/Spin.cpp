@@ -58,6 +58,6 @@ int main(int argc, char *argv[]){
     ros::Subscriber odom_sub = n.subscribe("odom", 1, SpinCallBack);
 
 
-
+    ros::spin();
     return 0; 
 }
