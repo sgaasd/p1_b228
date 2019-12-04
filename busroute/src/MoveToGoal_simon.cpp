@@ -2,10 +2,10 @@
 #include <kobuki_msgs/ButtonEvent.h>
 #include <move_base_msgs/MoveBaseAction.h>
 #include <actionlib/client/simple_action_client.h>
-#include <sound_play/sound_play.h>
+//#include <sound_play/sound_play.h>
 
-std::string path_to_sounds;
-sound_play::SoundClient sc;
+//std::string path_to_sounds;
+//sound_play::SoundClient sc;
 
 
 /* Coordinates of locations on the map, whare the robot shall drive between*/
@@ -30,7 +30,7 @@ void ButtonCallback(const kobuki_msgs::ButtonEvent::ConstPtr& msg){
     int Button = 5;
     Pressed = msg->state;
     Button = msg->button;
-    path_to_sounds = "/home/ros/p1ws/src/p1_b228/busroute/sounds/";
+    //path_to_sounds = "/home/ros/p1ws/src/p1_b228/busroute/sounds/";
     ROS_INFO("buttoncallback startet");
     if (Pressed == true){
         ROS_INFO("kører if statemant");
@@ -86,12 +86,12 @@ ROS_INFO("lige før den sender xGoal og yGoal");
 
         if (ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED){
             ROS_INFO("The distination has been reached");
-            sc.playWave(path_to_sounds+"toaster_oven_ding.wav");
+            //sc.playWave(path_to_sounds+"toaster_oven_ding.wav");
         
         }
         else{
         ROS_ERROR("The distination cannot be reached");
-        sc.playWave(path_to_sounds+"short_buzzer.wav");
+        //sc.playWave(path_to_sounds+"short_buzzer.wav");
         
         }
     }
@@ -105,7 +105,7 @@ int main(int argc, char** argv){
 
 std::cout << "noden er startet" << std::endl;
 std::cout << "B228 kordinater" << xB228 << "|||||" << yB228 << std::endl;
-    ros::Subscriber Button_sub = n.subscribe("mobile_base/events/button", 10, ButtonCallback);
+    ros::Subscriber Button_sub = n.subscribe("mobile_base/events/button", 1, ButtonCallback);
     ros::spin();
     return 0;
 }
