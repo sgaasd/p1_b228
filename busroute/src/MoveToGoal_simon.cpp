@@ -2,11 +2,14 @@
 #include <kobuki_msgs/ButtonEvent.h>
 #include <move_base_msgs/MoveBaseAction.h>
 #include <actionlib/client/simple_action_client.h>
+#include <kobuki_msgs/Led.h>
 //#include <sound_play/sound_play.h>
 
 //std::string path_to_sounds;
 //sound_play::SoundClient sc;
 
+ros::Publisher led1_pub;
+ros::Publisher led2_pub;
 
 /* Coordinates of locations on the map, whare the robot shall drive between*/
 double xB228 = 1.181052;
@@ -24,6 +27,7 @@ double yGoal = 0.0;
 /* Declare goalReached. its used to print out a message when goal is reached */
 bool goalReached = false;
 
+void light(int a, int b);
 
 void ButtonCallback(const kobuki_msgs::ButtonEvent::ConstPtr& msg){
     bool Pressed = false;
@@ -81,16 +85,22 @@ ROS_INFO("lige før den sender xGoal og yGoal");
 
         ROS_INFO("Moving towards the distination");
         ac.sendGoal(goal);
+        light(1, 'o');
+        light(2, 'o');
 
         ac.waitForResult();
 
         if (ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED){
             ROS_INFO("The distination has been reached");
+            light(1, 'g');
+            light(2, 'g');
             //sc.playWave(path_to_sounds+"toaster_oven_ding.wav");
         
         }
         else{
         ROS_ERROR("The distination cannot be reached");
+        light(1, 'r');
+        light(2, 'r');
         //sc.playWave(path_to_sounds+"short_buzzer.wav");
         
         }
@@ -103,9 +113,53 @@ int main(int argc, char** argv){
     ros::init(argc, argv, "MoveToGoal_fin_node");
     ros::NodeHandle n;
 
-std::cout << "noden er startet" << std::endl;
-std::cout << "B228 kordinater" << xB228 << "|||||" << yB228 << std::endl;
+    std::cout << "noden er startet" << std::endl;
+    std::cout << "B228 kordinater" << xB228 << "|||||" << yB228 << std::endl;
+    
+    led1_pub = n.advertise<kobuki_msgs::Led>("/mobile_base/commands/led1", 1);
+    led2_pub = n.advertise<kobuki_msgs::Led>("/mobile_base/commands/led2", 1);
     ros::Subscriber Button_sub = n.subscribe("mobile_base/events/button", 1, ButtonCallback);
     ros::spin();
     return 0;
+}
+
+void light(int a, int b){
+    kobuki_msgs::Led led_message;
+    int c;
+    switch (b){
+    case 's':
+        c = 0;
+        break;
+    
+    case 'g':
+        c = 1;
+        break;
+    
+    case 'o':
+        c = 2;
+        break;
+    
+    case 'r':
+        c = 3;
+        break;
+        
+    default:
+        std::cout << b << " er ikke en mulig farve" << std::endl;
+        break;
+    }
+
+    led_message.value = c;
+    
+    switch(a){
+        case 1:
+            led1_pub.publish(led_message);
+            break;
+        case 2:
+            led2_pub.publish(led_message);
+            break;
+
+        default:
+            std::cout << "led " << a << "eksisterer ikke!" << std::endl;
+            break;    
+    }
 }

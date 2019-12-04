@@ -106,8 +106,7 @@ void showStatus(const actionlib_msgs::GoalStatusArray::ConstPtr& msg){
     }
 }
 
-void light(int a, int
- b){
+void light(int a, int b){
     kobuki_msgs::Led led_message;
     int c;
     switch (b){
