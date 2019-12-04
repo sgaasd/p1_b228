@@ -151,6 +151,7 @@ add_executable(test_goal_node src/test_goal.cpp)
 #add_executable(grid_layer_node src/grid_layer.cpp)
 add_executable(MoveGoalButtons_node src/MoveGoalButtons.cpp)
 add_executable(Spin_node src/Spin.cpp)
+add_executable(MoveToGoal_fin_node src/MoveToGoal_fin.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
@@ -232,6 +233,10 @@ target_link_libraries(MoveGoalButtons_node
 )
 
 target_link_libraries(Spin_node
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(MoveToGoal_fin_node
   ${catkin_LIBRARIES}
 )
 #############
