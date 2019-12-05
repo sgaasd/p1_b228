@@ -1,0 +1,5 @@
+<launch>
+      <include file="$(find busroute)/launch/turtlebot_stage_gang.launch"/>
+     <node name="MoveGoalV2" pkg="busroute" type="MoveGoalV2_node" output="screen">
+     </node>
+</launch>
