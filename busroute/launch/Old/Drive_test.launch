@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<launch>
-    <node name="Drive_test" pkg="busroute" type="Drive_test_node" />
-</launch>
