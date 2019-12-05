@@ -13,23 +13,23 @@ geometry_msgs::Twist SafetyMsg(float x, float z){
     geometry_msgs::Twist cmd_vel_message;
     cmd_vel_message.angular.z = z;
     cmd_vel_message.linear.x = x;
-    cout << cmd_vel_message << endl;
     return cmd_vel_message;
 }
-//wd shall be true as default
+
+//"WheelDrop" shall be false as default
 bool wheelDrop=false;
 
-//A class called safety is created that contains the different functions 
+//A class called Safety_CallBack, that contains the different functions, is created 
 class Safety_CallBack {
     public: 
 
-        //The function with for the Wheel Drop. With pointers to Wheel and State 
-        void WheelDrop_callBack(const kobuki_msgs::WheelDropEvent::ConstPtr& msg){
+        //The function for the Wheel Drop. With pointers that passes the data from the each wheels state from the robot 
+        void WheelDropCallBack(const kobuki_msgs::WheelDropEvent::ConstPtr& msg){
             bool wheels = msg->wheel;
-            bool wheel_state = msg->state;
-            bool wheelDrop = wheel_state;
+            bool wheelState = msg->state;
+            bool wheelDrop = wheelState;
    
-            //iF the wheel drop is activated the the robot will stop and exit the program. 
+            //if the wheel drop is activated the robot will stop and exit ROS. 
             if (wheelDrop == true){
                 cmd_vel_pub.publish(SafetyMsg(0.0, 0.0));   
                 ROS_FATAL("Robot has been lifted - Exiting ROS ");
@@ -37,17 +37,17 @@ class Safety_CallBack {
                 }
             }       
 
-        //The functino for the Cliff is created 
+        //The function for the Cliff sensor is created. With poniter that passes data from each sensor and it's state
         void CliffCallback(const kobuki_msgs::CliffEvent::ConstPtr& msg){
         geometry_msgs::Twist cmd_vel_message;
         bool cliffs = msg->state;
         int sensors = msg->sensor;
-        //The robot has 2 second for each state 
+        //The robot has 2 second for each state.  
         ros::Rate loop_rate(21);
+            //The robot should make different turns depending on which sensor is activated 
             if (cliffs == 1 && wheelDrop == false) {
-                //The robot should make different turns depending on which sensor is activated 
                 switch (sensors){
-                    //If the sensor on the left side is pressed the robot will turn right 90 degrees
+                    //If the sensor on the left side is pressed the robot will first drive backwards and turn right
                     case 0:
                     for(int i=0; i<=42; i++){ 
                         cmd_vel_pub.publish(SafetyMsg(-0.2, 0.0));
@@ -58,7 +58,7 @@ class Safety_CallBack {
                         loop_rate.sleep();
                     }
                     break;
-                    //If the sensor on the middle is activated the robot will turn left 90 degrees
+                    //If the sensor on the middle is activated the robot will drive backwards and turn left 
                     case 1:
                     for(int i=0; i<=42; i++){ 
                         cmd_vel_pub.publish(SafetyMsg(-0.2, 0.0));
@@ -69,7 +69,7 @@ class Safety_CallBack {
                         loop_rate.sleep();
                     }
                     break;
-                    //If the sensor on the right side is pressed the robot will turn left 90 degrees
+                    //If the sensor on the right side is pressed the robot will drive backwards and turn left
                      case 2:
                     for(int i=0; i<=42; i++){ 
                         cmd_vel_pub.publish(SafetyMsg(-0.2, 0.0));
@@ -84,7 +84,7 @@ class Safety_CallBack {
             }
                
         }
-        //The function BumperCallBack tells if the bumper is pressed and which side 
+        //The function BumperCallBack tells if the bumper is pressed and which side is pressed
         void BumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg){
         geometry_msgs::Twist cmd_vel_message;
         bool hit = msg->state;
@@ -93,7 +93,7 @@ class Safety_CallBack {
         if(hit == 1 && wheelDrop==false) {
             //The robot should make different turns depending on which bumper is pressed 
             switch (bump){
-                //If the bumper on the left side is pressed the robot will turn right 90 degrees
+                //If the bumper on the left side is pressed the robot will first drive backwards and turn right
                 case 0:
                     for(int i=0; i<=42; i++){ 
                         cmd_vel_pub.publish(SafetyMsg(-0.2, 0.0));
@@ -104,7 +104,7 @@ class Safety_CallBack {
                         loop_rate.sleep();
                     }
                     break;
-                //If the bumper on the middle is pressed the robot will turn left 90 degrees
+                //If the bumper on the middle is pressed the robot will drive backwards and turn left
                 case 1:
                     for(int i=0; i<=42; i++){ 
                         cmd_vel_pub.publish(SafetyMsg(-0.2, 0.0));
@@ -115,7 +115,7 @@ class Safety_CallBack {
                         loop_rate.sleep();
                     }
                     break;
-                //If the bumper on the right side is pressed the robot will turn left 90 degrees
+                //If the bumper on the right side is pressed the robot will drive backwards and turn left
                 case 2:
                     for(int i=0; i<=42; i++){ 
                         cmd_vel_pub.publish(SafetyMsg(-0.2, 0.0));
@@ -135,22 +135,30 @@ class Safety_CallBack {
 
 int main(int argc, char *argv[]){
 
+    //Initelizing ros   
     ros::init(argc, argv, "Safety");
     ros::NodeHandle n;
+    
     //cmd_vel_pub is defined 
     cmd_vel_pub = n.advertise<geometry_msgs::Twist>("/cmd_vel_mux/input/safety_controller", 1);
 
-    Safety_CallBack something;
+    //To call the class it needs to be declared 
+    Safety_CallBack safetyClass;
 
-    ros::Subscriber WheelDrop_sub = n.subscribe("/mobile_base/events/wheel_drop", 1, &Safety_CallBack::WheelDrop_callBack, &something);
+    //Subcribing to "/mobile_base/events/cliff". 
+    //Evertime an advertisment is made on the topic "/mobile_base/events/cliff" run "WheelDropCallBack"
+    ros::Subscriber WheelDrop_sub = n.subscribe("/mobile_base/events/wheel_drop", 1, &Safety_CallBack::WheelDropCallBack, &safetyClass);
+    
     //Subcribing to "/mobile_base/events/cliff". 
     //Evertime an advertisment is made on the topic "/mobile_base/events/cliff" run "CliffCallBack"
-    ros::Subscriber Cliff_sub = n.subscribe("/mobile_base/events/cliff", 1, &Safety_CallBack::CliffCallback, &something);
+    ros::Subscriber Cliff_sub = n.subscribe("/mobile_base/events/cliff", 1, &Safety_CallBack::CliffCallback, &safetyClass);
+    
     //Subcribing to "mobile_base/events/bumper". 
     //Evertime an advertisment is made on the topic "mobile_base/events/bumper" run "BumperCallBack"
-    ros::Subscriber Bumper_sub = n.subscribe("mobile_base/events/bumper", 1, &Safety_CallBack::BumperCallback, &something);
+    ros::Subscriber Bumper_sub = n.subscribe("mobile_base/events/bumper", 1, &Safety_CallBack::BumperCallback, &safetyClass);
 
     //The program has run continuously 
     ros::spin();
+
     return 0;
 }

@@ -1,5 +1,8 @@
 <launch>
-   <include file="$(find turtlebot_bringup)/launch/minimal.launch"/>
+  <include file="$(find turtlebot_bringup)/launch/minimal.launch"/>
+  <node name="Spin" pkg="busroute" type="Spin_node"/>
+  <node name="Safety" pkg="busroute" type="Safety_node" required="true"/>
+  <node name="MoceToGoal" pkg="busroute" type="MoveToGoal_node" />
 
 <arg name="node_start_delay" default="30.0" /> 
 

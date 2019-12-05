@@ -3,15 +3,13 @@
 #include <move_base_msgs/MoveBaseAction.h>
 #include <actionlib/client/simple_action_client.h>
 #include <kobuki_msgs/Led.h>
-//#include <sound_play/sound_play.h>
+using namespace std; 
 
-//std::string path_to_sounds;
-//sound_play::SoundClient sc;
-
+//Publisher varibles are initialised 
 ros::Publisher led1_pub;
 ros::Publisher led2_pub;
 
-/* Coordinates of locations on the map, whare the robot shall drive between*/
+//Coordinates of locations on the map, where the robot shall drive between
 double xB228 = 1.181052;
 double yB228 = 0.033761;
 
@@ -24,56 +22,51 @@ double yTechnicRoom = -11.05786;
 double xGoal = 0.0;
 double yGoal = 0.0;
 
-/* Declare goalReached. its used to print out a message when goal is reached */
+//Declare goalReached. it is used to print out a message when goal is reached
 bool goalReached = false;
 
+//A function "light is" created 
 void light(int a, int b);
 
+//The function "ButtonCallBack" passes the data for each button on the robot 
 void ButtonCallback(const kobuki_msgs::ButtonEvent::ConstPtr& msg){
-    bool Pressed = false;
-    int Button = 5;
+    bool Pressed = false;       //hvad er det her? 
+    int Button = 5;             //hvad er det her? 
     Pressed = msg->state;
     Button = msg->button;
-    //path_to_sounds = "/home/ros/p1ws/src/p1_b228/busroute/sounds/";
-    ROS_INFO("buttoncallback startet");
+    //Each button is given a desitination 
     if (Pressed == true){
-        ROS_INFO("kører if statemant");
-        
-        if (Button == 0)
-        {
+        if (Button == 0){
             xGoal = xB228;
             yGoal = yB228;
-            ROS_INFO("B228 i  if");
+            ROS_INFO("Going to B228");
         }
-        else if (Button == 1)
-        {
+        else if (Button == 1){
             xGoal = xPrinterRoom;
             yGoal = yPrinterRoom;
-            ROS_INFO("printerrum i  if");
+            ROS_INFO("Going to Printer Room");
         }
-        else if (Button == 2)
-        {
+        else if (Button == 2){
             xGoal = xTechnicRoom;
             yGoal = yTechnicRoom;
-            ROS_INFO("Teknikrum i  if");
+            ROS_INFO("Going to Technic Room");
         }
-         
     
-/* Setting up the publsher - 'move_base' server through a 'SimpleActionClient' */
+        //Setting up the publsher - 'move_base' server through a 'SimpleActionClient'
         actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> ac("move_base", true);
 
-/* Setting a timer, so the 'action server' can come up , and it will wait for mak. 5 sec.*/
+        //Setting a timer, so the 'action server' can come up , and it will wait for mak. 5 sec.
         while (!ac.waitForServer(ros::Duration(5.0))){
             ROS_INFO("Program waitin for the 'move_base action server' to post");
         }
 
         move_base_msgs::MoveBaseGoal goal;
 
-/* Declaring the coordiantes used in this node to reference to the absolute coordinates nemed in the "map" file */
+        //Declaring the coordiantes used in this node to reference to the absolute coordinates nemed in the "map" file 
         goal.target_pose.header.frame_id = "map";
         goal.target_pose.header.stamp = ros::Time::now();
-ROS_INFO("lige før den sender xGoal og yGoal");
-/* Moving the robot towards its distination point */
+        ROS_INFO("lige før den sender xGoal og yGoal");
+        //Moving the robot towards its distination point 
         goal.target_pose.pose.position.x = xGoal;
         goal.target_pose.pose.position.y = yGoal;
         goal.target_pose.pose.position.z = 00.00;
@@ -83,6 +76,7 @@ ROS_INFO("lige før den sender xGoal og yGoal");
         goal.target_pose.pose.orientation.z = 00.00;
         goal.target_pose.pose.orientation.w = 1.00;
 
+        //If the robot is miving rowards its distination its lights will turn yelleow and red 
         ROS_INFO("Moving towards the distination");
         ac.sendGoal(goal);
         light(1, 'o');
@@ -90,40 +84,46 @@ ROS_INFO("lige før den sender xGoal og yGoal");
 
         ac.waitForResult();
 
+        //If the robot has reached its goal its lights will turn green 
         if (ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED){
             ROS_INFO("The distination has been reached");
             light(1, 'g');
             light(2, 'g');
-            //sc.playWave(path_to_sounds+"toaster_oven_ding.wav");
         
         }
+        //If the robot cannot reacg its goal the lights will turn red
         else{
         ROS_ERROR("The distination cannot be reached");
         light(1, 'r');
         light(2, 'r');
-        //sc.playWave(path_to_sounds+"short_buzzer.wav");
-        
         }
     }
 }
 
 int main(int argc, char** argv){
 
-/* Initelizing ros */    
+    //Initelizing ros    
     ros::init(argc, argv, "MoveToGoal_fin_node");
     ros::NodeHandle n;
 
-    std::cout << "noden er startet" << std::endl;
-    std::cout << "B228 kordinater" << xB228 << "|||||" << yB228 << std::endl;
+    cout << "noden er startet" << endl;
+    cout << "B228 kordinater" << xB228 << "|||||" << yB228 << endl; //hvorfor? 
     
+    //"led1_pub" & "led2_pub" is defined 
     led1_pub = n.advertise<kobuki_msgs::Led>("/mobile_base/commands/led1", 1);
     led2_pub = n.advertise<kobuki_msgs::Led>("/mobile_base/commands/led2", 1);
+
+    //Subcribing to "mobile_base/events/button". 
+    //Evertime an advertisment is made on the topic "mobile_base/events/button" run "ButtonCallBack"
     ros::Subscriber Button_sub = n.subscribe("mobile_base/events/button", 1, ButtonCallback);
+
+    //The program has run continuously 
     ros::spin();
+
     return 0;
 }
 
-void light(int a, int b){
+void light(int a, int b){               //emil? 
     kobuki_msgs::Led led_message;
     int c;
     switch (b){
@@ -144,7 +144,7 @@ void light(int a, int b){
         break;
         
     default:
-        std::cout << b << " er ikke en mulig farve" << std::endl;
+        cout << b << " er ikke en mulig farve" << endl;
         break;
     }
 
@@ -159,7 +159,7 @@ void light(int a, int b){
             break;
 
         default:
-            std::cout << "led " << a << "eksisterer ikke!" << std::endl;
+            cout << "led " << a << "eksisterer ikke!" << endl;
             break;    
     }
 }
