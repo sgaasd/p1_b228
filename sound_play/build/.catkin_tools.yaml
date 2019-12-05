@@ -1,6 +1,0 @@
-devel_space: /home/ros/Desktop/audio_common-master/sound_play/devel
-install: false
-install_space: /home/ros/Desktop/audio_common-master/sound_play/install
-profile: default
-source_space: /home/ros/Desktop/audio_common-master/sound_play/src
-workspace: /home/ros/Desktop/audio_common-master/sound_play

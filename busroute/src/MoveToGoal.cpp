@@ -23,17 +23,15 @@ double xGoal = 0.0;
 double yGoal = 0.0;
 
 //Declare goalReached. it is used to print out a message when goal is reached
-bool goalReached = false;
+// bool goalReached = false;
 
 //A function "light is" created 
 void light(int a, int b);
 
 //The function "ButtonCallBack" passes the data for each button on the robot 
 void ButtonCallback(const kobuki_msgs::ButtonEvent::ConstPtr& msg){
-    bool Pressed = false;       //hvad er det her? 
-    int Button = 5;             //hvad er det her? 
-    Pressed = msg->state;
-    Button = msg->button;
+    bool Pressed = msg->state;
+    int Button = msg->button;
     //Each button is given a desitination 
     if (Pressed == true){
         if (Button == 0){
@@ -65,7 +63,7 @@ void ButtonCallback(const kobuki_msgs::ButtonEvent::ConstPtr& msg){
         //Declaring the coordiantes used in this node to reference to the absolute coordinates nemed in the "map" file 
         goal.target_pose.header.frame_id = "map";
         goal.target_pose.header.stamp = ros::Time::now();
-        ROS_INFO("lige før den sender xGoal og yGoal");
+        
         //Moving the robot towards its distination point 
         goal.target_pose.pose.position.x = xGoal;
         goal.target_pose.pose.position.y = yGoal;
@@ -105,9 +103,6 @@ int main(int argc, char** argv){
     //Initelizing ros    
     ros::init(argc, argv, "MoveToGoal_fin_node");
     ros::NodeHandle n;
-
-    cout << "noden er startet" << endl;
-    cout << "B228 kordinater" << xB228 << "|||||" << yB228 << endl; //hvorfor? 
     
     //"led1_pub" & "led2_pub" is defined 
     led1_pub = n.advertise<kobuki_msgs::Led>("/mobile_base/commands/led1", 1);
