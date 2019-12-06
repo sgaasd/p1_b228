@@ -101,7 +101,7 @@ void ButtonCallback(const kobuki_msgs::ButtonEvent::ConstPtr& msg){
 int main(int argc, char** argv){
 
     //Initelizing ros    
-    ros::init(argc, argv, "MoveToGoal_fin_node");
+    ros::init(argc, argv, "MoveToGoal_node");
     ros::NodeHandle n;
     
     //"led1_pub" & "led2_pub" is defined 
