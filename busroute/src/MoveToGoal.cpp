@@ -22,11 +22,8 @@ double yTechnicRoom = -11.05786;
 double xGoal = 0.0;
 double yGoal = 0.0;
 
-//Declare goalReached. it is used to print out a message when goal is reached
-// bool goalReached = false;
-
 //A function "light is" created 
-void light(int a, int b);
+void light(int led, int color);
 
 //The function "ButtonCallBack" passes the data for each button on the robot 
 void ButtonCallback(const kobuki_msgs::ButtonEvent::ConstPtr& msg){
@@ -118,43 +115,56 @@ int main(int argc, char** argv){
     return 0;
 }
 
-void light(int a, int b){               //emil? 
+//Function for controling the light
+void light(int led, int color){
+    //Defining the variable led_message to the type kobuki_msgs::Led
     kobuki_msgs::Led led_message;
-    int c;
-    switch (b){
-    case 's':
-        c = 0;
-        break;
-    
-    case 'g':
-        c = 1;
-        break;
-    
-    case 'o':
-        c = 2;
-        break;
-    
-    case 'r':
-        c = 3;
-        break;
-        
-    default:
-        cout << b << " er ikke en mulig farve" << endl;
-        break;
-    }
+    //defining a interger variable, which will be used in the following switch.
+    int asignedColor;
+    //Switch statement for asigning a color to the ingeger variable "asignedColor"
+    switch (color){
+        case 's':
+            //If the variable "color" has the value "s", the color is set to NULL (which translate to the led turned off)
+            asignedColor = 0;
+            break;
 
-    led_message.value = c;
-    
-    switch(a){
+        case 'g':
+            //If the variable "color" has the value "g", the color is set to GREEN.
+            asignedColor = 1;
+            break;
+
+        case 'o':
+            //If the variable "color" has the value "o", the color is set to ORANGE.
+            asignedColor = 2;
+            break;
+
+        case 'r':
+            //If the variable "color" has the value "r", the color is set to RED.
+            asignedColor = 3;
+            break;
+            
+        default:
+            //A ERROR message will appear if none of the above cases is true. 
+            ROS_ERROR("The asigned value is not a known color");
+            break;
+    }
+    //The value in "asignedColor" is passed to "led_message.value".
+    led_message.value = asignedColor;
+
+    //Switch statement for activating a Led 1 or Led 2.
+    switch(led){
         case 1:
+            //If the variable "led" has the value 1, the Led 1 will light up, with the asigned color from the switch above.
             led1_pub.publish(led_message);
             break;
         case 2:
+            //If the variable "led" has the value 2, the Led 2 will light up, with the asigned color from the switch above.
             led2_pub.publish(led_message);
             break;
 
         default:
-            cout << "led " << a << "eksisterer ikke!" << endl;
+            //A ERROR message will appear if none of the above cases is true. 
+            ROS_ERROR("The asigned led is not a known led");
             break;    
     }
 }
