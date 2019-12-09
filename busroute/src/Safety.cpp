@@ -146,7 +146,7 @@ int main(int argc, char *argv[]){
     Safety_CallBack safetyClass;
 
     //Subcribing to "/mobile_base/events/cliff". 
-    //Evertime an advertisment is made on the topic "/mobile_base/events/cliff" run "WheelDropCallBack"
+    //Evertime an advertisment is made on the topic "/mobile_base/events/wheel_drop" run "WheelDropCallBack"
     ros::Subscriber WheelDrop_sub = n.subscribe("/mobile_base/events/wheel_drop", 1, &Safety_CallBack::WheelDropCallBack, &safetyClass);
     
     //Subcribing to "/mobile_base/events/cliff". 
