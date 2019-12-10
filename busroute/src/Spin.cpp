@@ -6,7 +6,7 @@ using namespace std;
 ros::Publisher cmd_vel_pub;
 
 //A function for defining cmd_vel_message is created  
-geometry_msgs::Twist SafetyMsg(float z){
+geometry_msgs::Twist SpinMsg(float z){
     geometry_msgs::Twist cmd_vel_message;
     cmd_vel_message.angular.z = z;
     cout << cmd_vel_message << endl;
@@ -18,7 +18,7 @@ geometry_msgs::Twist SafetyMsg(float z){
         //ros::Duration(10.0).sleep();
         ros::Rate loop_rate(10);
         for(int i=0; i<=200; i++){ 
-            cmd_vel_pub.publish(SafetyMsg(-0.6)); 
+            cmd_vel_pub.publish(SpinMsg(-0.6)); 
             loop_rate.sleep();
             }
         cout << "I am ready" << endl;
