@@ -17,7 +17,7 @@ geometry_msgs::Twist SafetyMsg(float x, float z){
 }
 
 //"WheelDrop" shall be false as default
-bool wheelDrop=false;
+bool wheelDrop = false;
 
 //A class called Safety_CallBack, that contains the different functions, is created 
 class Safety_CallBack {
@@ -27,7 +27,7 @@ class Safety_CallBack {
         void WheelDropCallBack(const kobuki_msgs::WheelDropEvent::ConstPtr& msg){
             bool wheels = msg->wheel;
             bool wheelState = msg->state;
-            bool wheelDrop = wheelState;
+            wheelDrop = wheelState;
    
             //if the wheel drop is activated the robot will stop and exit ROS. 
             if (wheelDrop == true){

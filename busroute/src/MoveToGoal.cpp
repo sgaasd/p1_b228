@@ -10,40 +10,63 @@ ros::Publisher led1_pub;
 ros::Publisher led2_pub;
 
 //Coordinates of locations on the map, where the robot shall drive between
-double xB228 = 1.181052;
-double yB228 = 0.033761;
+    //Coordinates in Grouproom B228.
+    double xB228 = 1.181052;
+    double yB228 = 0.033761;
+    double zB228 = 0.0;
+    double wB228 = 1.0;
+    
 
-double xPrinterRoom = 2.200309;
-double yPrinterRoom = 6.166436;
+    //Coordinates in Printerroom on second floor.
+    double xPrinterRoom = 2.200309;
+    double yPrinterRoom = 6.166436;
+    double zPrinterRoom = 0.0;
+    double wPrinterRoom = 1.0;
 
-double xTechnicRoom = -2.259303;
-double yTechnicRoom = -11.05786;
+    //Coordinates outside of Technicroom on second floor.
+    double xTechnicRoom = -2.259303;
+    double yTechnicRoom = -11.05786;
+    double zTechnicRoom = 0.0;
+    double wTechnicRoom = 1.0;
 
-double xGoal = 0.0;
-double yGoal = 0.0;
+    //defining the Goal coordinates.
+    double xGoal = 0.0;
+    double yGoal = 0.0;
+    double zGoal = 0.0;
+    double wGoal = 1.0;
 
-//A function "light is" created 
+//A function "light" is created 
 void light(int led, int color);
 
 //The function "ButtonCallBack" passes the data for each button on the robot 
 void ButtonCallback(const kobuki_msgs::ButtonEvent::ConstPtr& msg){
     bool Pressed = msg->state;
     int Button = msg->button;
-    //Each button is given a desitination 
+
+    //Each button is asgined a specific distination 
     if (Pressed == true){
         if (Button == 0){
+            //The coordinates stored in "xB228" and "yB228" is passed over to Goal coordinates.
             xGoal = xB228;
             yGoal = yB228;
+            zGoal = zB228;
+            wGoal = wB228;
             ROS_INFO("Going to B228");
         }
         else if (Button == 1){
+            //The coordinates stored in "xPrinterRoom" and "yPrinterRoom" is passed over to Goal coordinates.
             xGoal = xPrinterRoom;
             yGoal = yPrinterRoom;
+            zGoal = zPrinterRoom;
+            wGoal = wPrinterRoom;
             ROS_INFO("Going to Printer Room");
         }
         else if (Button == 2){
+            //The coordinates stored in "xPrinterRoom" and "yPrinterRoom" is passed over to Goal coordinates.
             xGoal = xTechnicRoom;
             yGoal = yTechnicRoom;
+            zGoal = zTechnicRoom;
+            wGoal = wTechnicRoom;
             ROS_INFO("Going to Technic Room");
         }
     
@@ -64,12 +87,9 @@ void ButtonCallback(const kobuki_msgs::ButtonEvent::ConstPtr& msg){
         //Moving the robot towards its distination point 
         goal.target_pose.pose.position.x = xGoal;
         goal.target_pose.pose.position.y = yGoal;
-        goal.target_pose.pose.position.z = 00.00;
 
-        goal.target_pose.pose.orientation.x = 00.00;
-        goal.target_pose.pose.orientation.y = 00.00;
-        goal.target_pose.pose.orientation.z = 00.00;
-        goal.target_pose.pose.orientation.w = 1.00;
+        goal.target_pose.pose.orientation.z = zGoal;
+        goal.target_pose.pose.orientation.w = wGoal;
 
         //If the robot is miving rowards its distination its lights will turn yelleow and red 
         ROS_INFO("Moving towards the distination");
