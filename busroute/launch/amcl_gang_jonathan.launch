@@ -1,6 +1,5 @@
 <launch>
   <include file="$(find turtlebot_bringup)/launch/minimal.launch"/>
-  <node name="Spin" pkg="busroute" type="Spin_node"/>
   <node name="Safety" pkg="busroute" type="Safety_node" required="true"/>
   <node name="MoceToGoal" pkg="busroute" type="MoveToGoal_node" />
 
@@ -40,6 +39,6 @@
   <include file="$(find turtlebot_navigation)/launch/includes/move_base.launch.xml">
     <arg name="custom_param_file" value="$(arg custom_param_file)"/>
   </include>
-
+ <node name="Spin" pkg="busroute" type="Spin_node"/>
 </launch>
 

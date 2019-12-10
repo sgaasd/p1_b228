@@ -46,6 +46,7 @@ class Safety_CallBack {
         ros::Rate loop_rate(21);
             //The robot should make different turns depending on which sensor is activated 
             if (cliffs == 1 && wheelDrop == false) {
+                ROS_INFO("The cliff sensr on the robot has been activated");
                 switch (sensors){
                     //If the sensor on the left side is pressed the robot will first drive backwards and turn right
                     case 0:
@@ -91,6 +92,7 @@ class Safety_CallBack {
         int bump = msg->bumper;
         ros::Rate loop_rate(21);
         if(hit == 1 && wheelDrop==false) {
+            ROS_INFO("The bumper on the robot has been hit");
             //The robot should make different turns depending on which bumper is pressed 
             switch (bump){
                 //If the bumper on the left side is pressed the robot will first drive backwards and turn right
