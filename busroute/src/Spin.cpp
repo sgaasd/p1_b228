@@ -16,8 +16,8 @@ geometry_msgs::Twist SafetyMsg(float z){
     //The function "SpinCallBack" tells the robot to turn around it self 
     void SpinCallBack(){
         //ros::Duration(10.0).sleep();
-        ros::Rate loop_rate(21);
-        for(int i=0; i<=300; i++){ 
+        ros::Rate loop_rate(1);
+        for(int i=0; i<=21; i++){ 
             cmd_vel_pub.publish(SafetyMsg(-0.6)); 
             loop_rate.sleep();
             }

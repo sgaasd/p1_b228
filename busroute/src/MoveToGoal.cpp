@@ -14,7 +14,7 @@ ros::Publisher led2_pub;
     double xB228 = 1.181052;
     double yB228 = 0.033761;
     double zB228 = 0.0;
-    double wB228 = 1.0;
+    double wB228 = 0.999999;
     
 
     //Coordinates in Printerroom on second floor.
@@ -26,8 +26,8 @@ ros::Publisher led2_pub;
     //Coordinates outside of Technicroom on second floor.
     double xTechnicRoom = -2.259303;
     double yTechnicRoom = -11.05786;
-    double zTechnicRoom = 0.0;
-    double wTechnicRoom = 1.0;
+    double zTechnicRoom = -0.625379;
+    double wTechnicRoom = 0.7803212;
 
     //defining the Goal coordinates.
     double xGoal = 0.0;
