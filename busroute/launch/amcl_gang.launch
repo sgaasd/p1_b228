@@ -3,7 +3,9 @@
    <node name="Safety" pkg="busroute" type="Safety_node" required="true"/>
  <node name="MoveToGoal" pkg="busroute" type="MoveToGoal_node" />
 
-<arg name="node_start_delay" default="30.0"/> 
+<arg name="node_start_delay" default="10.0" />  
+<node name="Spin" pkg="busroute" type="Spin_node" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' " />
+
 
   <include file="$(find turtlebot_rviz_launchers)/launch/view_navigation.launch"/>
 
@@ -39,6 +41,6 @@
   <include file="$(find turtlebot_navigation)/launch/includes/move_base.launch.xml">
     <arg name="custom_param_file" value="$(arg custom_param_file)"/>
   </include>
- <node name="Spin" pkg="busroute" type="Spin_node"/>
+
 </launch>
 
