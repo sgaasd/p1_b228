@@ -10,10 +10,10 @@ geometry_msgs::Twist SpinMsg(float z){
     cmd_vel_message.angular.z = z;
     return cmd_vel_message;
 }
-
     //The function "SpinCallBack" tells the robot to turn around it self 
     void SpinCallBack(){
-        //loop rate is set to 10, and the for loop wil run for 210 interations. This makes the robot turn 4 pi radians. 
+        //loop rate is set to 10, and the for loop wil run for 210 interations. 
+        //This makes the robot turn aproxamitly 2 turns on its own axis.
         ros::Rate loop_rate(8);
         for(int i=0; i<=200; i++){ 
             cmd_vel_pub.publish(SpinMsg(-0.6)); 
@@ -31,7 +31,6 @@ int main(int argc, char *argv[]){
     //cmd_vel_pub is initialized 
     cmd_vel_pub = n.advertise<geometry_msgs::Twist>("/cmd_vel_mux/input/navi", 1);
     
-
     //Calls the function "SpinCallBack"
     SpinCallBack();
     
