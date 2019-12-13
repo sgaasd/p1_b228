@@ -1,4 +1,4 @@
-image: /home/ros/p1ws/src/p1_b228/busroute/maps/gang.pgm
+image: /home/ros/git_ws/src/p1_b228/busroute/maps/Map.pgm
 resolution: 0.050000
 origin: [-13.85, -48.495, 0]
 negate: 0
