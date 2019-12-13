@@ -20,7 +20,7 @@
   </include>
 
   <!-- Map server -->
-  <arg name="map_file" default="/home/ros/git_ws/src/p1_b228/busroute/maps/gang_san.yaml" />
+  <arg name="map_file" default="/home/ros/git_ws/src/p1_b228/busroute/maps/Map_SAN.yaml" />
   <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
 
   <!-- AMCL -->
@@ -39,6 +39,5 @@
   <include file="$(find turtlebot_navigation)/launch/includes/move_base.launch.xml">
     <arg name="custom_param_file" value="$(arg custom_param_file)"/>
   </include>
-<node name="Spin" pkg="busroute" type="Spin_node"/>
 </launch>
 
