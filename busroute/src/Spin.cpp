@@ -12,8 +12,8 @@ geometry_msgs::Twist SpinMsg(float z){
 }
     /*The function "SpinCallBack" tells the robot to turn around it self*/
     void SpinCallBack(){
-        /*loop rate is set to 10, and the for loop wil run for 210 interations. 
-        This makes the robot turn aproxamitly 2 turns on its own axis.*/
+        /*loop rate is set to 8, and the for loop wil run for 200 iterations. 
+        This makes the robot spin approximately 2 turns on its own axis.*/
         ros::Rate loop_rate(8);
         for(int i=0; i<=200; i++){ 
             cmd_vel_pub.publish(SpinMsg(-0.6)); 
