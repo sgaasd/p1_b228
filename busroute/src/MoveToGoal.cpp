@@ -9,7 +9,7 @@ using namespace std;
 ros::Publisher led1_pub;
 ros::Publisher led2_pub;
 
-/*Coordinates of locations on the map, where the robot shall drive between*/
+/*Coordinates and the orientation of locations on the map, where the robot shall drive between*/
     /*Coordinates in Grouproom B228.*/
     double xB228 = 1.181052;
     double yB228 = 0.033761;
@@ -73,8 +73,6 @@ void ButtonCallback(const kobuki_msgs::ButtonEvent::ConstPtr& msg){
             ROS_INFO("Going to Technic Room");
         }
     
-        /*Setting up the publsher - 'move_base' server through 
-        a 'SimpleActionClient' */
         actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> 
         ac("move_base", true);
 
@@ -86,19 +84,19 @@ void ButtonCallback(const kobuki_msgs::ButtonEvent::ConstPtr& msg){
         move_base_msgs::MoveBaseGoal goal;
 
         /*Declaring the coordiantes used in this node to reference to the 
-        absolute coordinates nemed in the "map" file */
+        absolute coordinates nemed in the "Map.yaml" file */
         goal.target_pose.header.frame_id = "map";
         goal.target_pose.header.stamp = ros::Time::now();
         
-        /*Moving the robot towards its distination point */
+        /*Signing the coordinates to the MoveBaseAction */
         goal.target_pose.pose.position.x = xGoal;
         goal.target_pose.pose.position.y = yGoal;
 
         goal.target_pose.pose.orientation.z = zGoal;
         goal.target_pose.pose.orientation.w = wGoal;
 
-        /*If the robot is miving rowards its distination its lights will 
-        turn yelleow and red */
+        /*Sending the goal towards distination, 
+        and turning on th lights acordingly*/
         ROS_INFO("Moving towards the distination");
         ac.sendGoal(goal);
         light(1, 'o');
@@ -113,7 +111,7 @@ void ButtonCallback(const kobuki_msgs::ButtonEvent::ConstPtr& msg){
             light(2, 'g');
         
         }
-        /*If the robot cannot reacg its goal the lights will turn red*/
+        /*If the robot cannot reach its goal the lights will turn red*/
         else{
         ROS_ERROR("The distination cannot be reached");
         light(1, 'r');
@@ -124,7 +122,7 @@ void ButtonCallback(const kobuki_msgs::ButtonEvent::ConstPtr& msg){
 
 int main(int argc, char** argv){
 
-    /*Initelizing ros*/
+    /*Initelizing the node*/
     ros::init(argc, argv, "MoveToGoal_node");
     ros::NodeHandle n;
     
@@ -144,11 +142,11 @@ int main(int argc, char** argv){
     return 0;
 }
 
-/*Function for controling the light */
+/*Function for controlling the light */
 void light(int led, int color){
     /*Defining the variable led_message to the type kobuki_msgs::Led */
     kobuki_msgs::Led led_message;
-    /*defining a interger variable, which will be used in the following switch.*/
+    /*Defining a interger variable, which will be used in the following switch.*/
     int asignedColor;
     /*Switch statement for asigning a color to the ingeger variable 
     "asignedColor" */
